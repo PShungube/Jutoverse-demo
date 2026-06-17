@@ -4,6 +4,8 @@
 
 This document defines the implementation plan for the future React-based UX of `jutoverse_demo`.
 
+For the frontend-only execution path with no backend implementation, see `docs/frontend-only-implementation-plan.md`.
+
 The plan assumes:
 
 - the UX layer is built in React with TypeScript
@@ -11,6 +13,39 @@ The plan assumes:
 - the future local runtime architecture is a three-tier system: `web`, `api`, and `postgres`
 - local orchestration is handled with Docker Compose
 - non-local DEV and PROD deployments are planned for GKE on GCP
+
+## Current Implementation Snapshot
+
+The repository now contains a shipped frontend-only live mockup under `src/`.
+
+Current implemented characteristics:
+
+- `React + TypeScript + Vite`
+- `React Router` routing across all six top-level areas
+- typed local mock adapters and fixture-backed resources
+- token-driven theming and locale switching adapted from `react-poc`
+- resizable, collapsible, and expandable panel surfaces
+- responsive layouts validated in desktop, tablet, mobile, and Hebrew RTL passes
+
+The future full-stack direction in this document remains valid, but the current codebase should be understood as a frontend-first mockup stage.
+
+## Current Versus Future Architecture
+
+```mermaid
+flowchart LR
+  subgraph Current
+    WebNow[React frontend live mockup]
+    WebNow --> AdapterNow[Typed mock adapters]
+    AdapterNow --> FixtureNow[Synthetic fixtures]
+  end
+
+  subgraph Future
+    WebFuture[Web tier]
+    APIFuture[API tier]
+    PostgresFuture[Postgres tier]
+    WebFuture --> APIFuture --> PostgresFuture
+  end
+```
 
 ## Planning Assumptions
 
@@ -151,6 +186,8 @@ The future app deployment should consume environment outputs rather than hardcod
 
 These choices are recommendations, not hard requirements, but the implementation should avoid ad hoc state sprawl.
 
+The current implementation intentionally stays lighter than this recommendation set and uses built-in React state plus typed local adapters because no backend exists yet.
+
 ## UX Reuse Strategy From react-poc
 
 ### Mandatory Reuse Targets
@@ -243,16 +280,26 @@ src/
     research-review/
     administration/
   api/
-    client/
     contracts/
-    queries/
+    adapters/
+    mocks/
   hooks/
-  lib/
-  types/
   pages/
 ```
 
 The structure should remain feature-oriented rather than growing into one large shared-components bucket.
+
+## Current Route Surface
+
+```mermaid
+flowchart TD
+  Root[/overview]
+  Root --> Ops[/service-operations]
+  Root --> Assistant[/representative-assistant]
+  Root --> Citizen[/citizen-services]
+  Root --> Research[/research-review]
+  Root --> Admin[/administration]
+```
 
 ## State and Data-Fetching Plan
 
@@ -321,12 +368,18 @@ The React web tier should not encode database assumptions beyond typed API contr
 - connect screens to local mock contracts or fixture data
 - validate accessibility, direction, and theme behavior
 
+Implementation note:
+This phase is complete in the current repo state, but it is still powered by mock data rather than backend APIs.
+
 ### Phase 2: API Contract First Integration
 
 - define API resource contracts
 - implement typed frontend API client
 - replace feature mocks with API-backed read workflows
 - add loading, empty, error, and retry states across modules
+
+Implementation note:
+The current codebase has already implemented typed frontend contracts and loading states, but not the real API client.
 
 ### Phase 3: Workflow Completion
 

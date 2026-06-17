@@ -8,6 +8,8 @@
 - **Document Purpose:** Define the product scope, delivery expectations, compliance constraints, and success criteria for AI-enabled modernization of government services
 - **Reference UX/UI Contract:** `docs/ux-ui-style-contract.md`
 - **Reference Ownership Model:** `docs/repo-ownership-model.md`
+- **Reference Frontend Execution Plan:** `docs/frontend-only-implementation-plan.md`
+- **Reference Frontend Assumptions:** `docs/frontend-execution-assumptions.md`
 - **Reference Style Guide Repository:** `/Users/omid/projects/react-poc`
 - **Demo Cloud Platform:** Google Cloud Platform (`GCP`)
 
@@ -25,6 +27,35 @@ This program spans four workstreams:
 The expected outcome is a practical, secure, government-grade AI platform or set of capabilities that can support pilots and production use under Israeli regulatory, accessibility, and data-sovereignty constraints.
 
 For this demo, delivery will reuse the frontend UX/UI system from `/Users/omid/projects/react-poc` and standardize all implementation work on GCP.
+
+## Current Demo Implementation Status
+
+The current implementation state in this repository is:
+
+- a frontend-only live mockup built in `React + TypeScript + Vite`
+- six navigable product areas aligned to the PRD workstreams and admin/governance needs
+- typed mock adapters and synthetic fixtures instead of a backend API
+- Hebrew RTL and English LTR support in the implemented shell
+- GCP-oriented visuals, iconography, and storytelling reused from `react-poc`
+
+The current implementation does not yet include:
+
+- a production backend API
+- PostgreSQL persistence
+- real authentication or runtime identity integration
+- real GCP service orchestration
+
+## Current Demo Runtime Shape
+
+```mermaid
+flowchart LR
+  Stakeholders[Managers, Representatives, Citizens, Review Committees] --> Web[Frontend live mockup]
+  Web --> Shell[Shared shell, theming, RTL/LTR]
+  Web --> Mocks[Typed mock adapters]
+  Mocks --> Fixtures[Synthetic product fixtures]
+  Web -. future contract .-> API[Future API tier]
+  API -. future contract .-> DB[Future PostgreSQL tier]
+```
 
 ## Background and Problem Statement
 
@@ -115,6 +146,7 @@ The initial scope does not assume:
 - final automated approval or rejection of research proposals
 - generic consumer AI deployment without government-specific controls
 - creation of a brand-new visual language separate from the `react-poc` design system
+- implying that the current frontend mockup is already backed by real runtime systems or production data
 
 ## UX/UI and Frontend Reuse Strategy
 
@@ -144,6 +176,17 @@ The demo UX/UI baseline is defined by `docs/ux-ui-style-contract.md`, which in t
 ### Frontend Delivery Principle
 
 New screens for this demo should be built by adapting the `react-poc` frontend contract first. New primitives should be introduced only when an existing pattern cannot be extended cleanly.
+
+## Workstream To Screen Mapping
+
+```mermaid
+flowchart TD
+  Overview[Overview] --> W1[Service Operations / RFI 7197]
+  Overview --> W2[Representative Assistant / RFI 7190]
+  Overview --> W3[Citizen Services / RFI 7192]
+  Overview --> W4[Research Review / RFI 7632]
+  Overview --> Admin[Administration]
+```
 
 ## Functional Requirements
 

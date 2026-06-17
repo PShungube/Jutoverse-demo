@@ -15,8 +15,11 @@ This repository currently owns:
 1. The demo PRD in `docs/prd.md`.
 2. The local UX/UI implementation contract in `docs/ux-ui-style-contract.md`.
 3. The React UX implementation plan in `docs/react-ux-implementation-plan.md`.
-4. The cross-repo ownership contract in `docs/repo-ownership-model.md`.
-5. Any future demo-specific documentation, prototypes, and implementation artifacts created in this repo.
+4. The frontend-only implementation plan in `docs/frontend-only-implementation-plan.md`.
+5. The frontend execution assumptions in `docs/frontend-execution-assumptions.md`.
+6. The cross-repo ownership contract in `docs/repo-ownership-model.md`.
+7. The live frontend mockup implementation in `src/`.
+8. Any future demo-specific documentation, prototypes, and implementation artifacts created in this repo.
 
 This repository does not currently own:
 
@@ -25,7 +28,7 @@ This repository does not currently own:
 3. Terraform modules, environment roots, or platform-level Kubernetes tooling.
 4. Production backend APIs, databases, or secret-management workflows unless explicitly added later.
 
-If future work adds runtime code here, define the ownership boundary clearly before implementing cross-repo or cloud-coupled changes.
+Runtime code now exists in this repository. Keep the ownership boundary explicit before implementing cross-repo or cloud-coupled changes.
 
 ## Primary Source Documents
 
@@ -34,8 +37,10 @@ Treat these files in this repository as the local source of truth:
 1. `docs/prd.md`
 2. `docs/ux-ui-style-contract.md`
 3. `docs/react-ux-implementation-plan.md`
-4. `docs/repo-ownership-model.md`
-5. `docs/agent-instructions.md`
+4. `docs/frontend-only-implementation-plan.md`
+5. `docs/frontend-execution-assumptions.md`
+6. `docs/repo-ownership-model.md`
+7. `docs/agent-instructions.md`
 
 Treat these files in `/Users/omid/projects/react-poc` as read-only reference inputs for style, frontend patterns, and implementation approach:
 
@@ -68,10 +73,11 @@ The current documented contract for this repo is:
 9. Docker Compose is for local development only.
 10. Future shared DEV and PROD deployments should target GKE on GCP.
 11. For shared cloud environments, `jutomate-cloud-iac` owns infrastructure, `jutomate-tools` owns Kubernetes deployment/platform assets, and this repo owns the app.
+12. The current shipped runtime in this repo is a frontend-only live mockup that uses typed mock adapters and synthetic data rather than a backend API.
 
 ## Frontend and UX/UI Rules
 
-When this repository gains implementation code, follow these rules:
+When working in this repository's implementation code, follow these rules:
 
 1. Reuse or closely adapt the `react-poc` token system before creating new design primitives.
 2. Reuse card radius, shadow, control patterns, spacing discipline, and top-level shell behavior from `react-poc`.
@@ -116,15 +122,19 @@ When this repository gains implementation code, follow these rules:
 
 Update docs in the same change when the documented contract changes.
 
-All Markdown documentation files in this repository must live under `docs/`. Do not create new root-level `.md` files.
+All project contract Markdown files in this repository must live under `docs/`.
+
+The only allowed root-level Markdown exception is `README.md` as the repository entrypoint.
 
 At minimum, keep these files aligned:
 
 1. `docs/prd.md`
 2. `docs/ux-ui-style-contract.md`
 3. `docs/react-ux-implementation-plan.md`
-4. `docs/repo-ownership-model.md`
-5. `docs/agent-instructions.md`
+4. `docs/frontend-only-implementation-plan.md`
+5. `docs/frontend-execution-assumptions.md`
+6. `docs/repo-ownership-model.md`
+7. `docs/agent-instructions.md`
 
 When one file changes the product contract, review the others for drift.
 
@@ -136,13 +146,13 @@ When one file changes the product contract, review the others for drift.
 4. Use sibling repositories for reference only unless the user explicitly asks you to modify them.
 5. When borrowing patterns from `react-poc`, adapt them to this repo's actual scope instead of copying irrelevant module-specific details.
 6. Surface ownership, compliance, and cloud-assumption risks when they matter.
-7. If a task touches the future web stack, read `docs/react-ux-implementation-plan.md` first.
+7. If a task touches the future web stack, read `docs/react-ux-implementation-plan.md`, `docs/frontend-only-implementation-plan.md`, and `docs/frontend-execution-assumptions.md` first.
 
 ## Validation
 
 1. For docs-only changes, tests are usually not required; say that explicitly.
-2. For future code changes, run the most targeted validation available in this repo first.
-3. If this repo later gains a frontend app, prefer build and targeted test validation before broader checks.
+2. For code changes in the current frontend app, prefer `npm run lint` and `npm run build` as the first targeted validation pair unless a narrower check is clearly better.
+3. For larger future frontend changes, prefer build and targeted test validation before broader checks.
 4. If validation cannot run, state the exact blocker.
 
 ## Definition of Done
