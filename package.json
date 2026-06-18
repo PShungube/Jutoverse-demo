@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:local": "bash scripts/deploy-local.sh",
+    "debug:local": "bash scripts/deploy-local.sh --dev"
   },
   "dependencies": {
     "lucide-react": "^0.542.0",

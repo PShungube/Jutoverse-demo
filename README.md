@@ -38,6 +38,22 @@ npm install
 npm run dev
 ```
 
+Local deploy/debug helpers:
+
+```bash
+npm run deploy:local
+npm run debug:local
+```
+
+The deploy helper starts a built preview on `127.0.0.1:4173` by default. The debug helper starts the Vite dev server on the same localhost address with hot reload.
+
+You can override host and port:
+
+```bash
+npm run deploy:local -- --port 4174 --open
+npm run debug:local -- --host 0.0.0.0 --port 3000
+```
+
 Validation commands:
 
 ```bash
