@@ -1,3 +1,4 @@
+import { GroundedAnswerCard } from './components/GroundedAnswerCard';
 import { QueryComposer } from './components/QueryComposer';
 import { FeedbackControls } from './components/FeedbackControls';
 import { demoAdapter } from '../../api/adapters/demoAdapter';
@@ -47,6 +48,8 @@ export function RepresentativeAssistantPage() {
               <FeedbackControls />
             </div>
             <QueryComposer />
+
+            <GroundedAnswerCard />
           </div>
         </WindowPanel>
 
