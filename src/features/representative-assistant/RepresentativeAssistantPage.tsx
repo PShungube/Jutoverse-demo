@@ -1,3 +1,4 @@
+import { QueryComposer } from './components/QueryComposer';
 import { FeedbackControls } from './components/FeedbackControls';
 import { demoAdapter } from '../../api/adapters/demoAdapter';
 import { lt } from '../../api/contracts';
@@ -42,9 +43,10 @@ export function RepresentativeAssistantPage() {
                   <p>{text(exchange.text)}</p>
                 </article>
               ))}
-              
+
               <FeedbackControls />
             </div>
+            <QueryComposer />
           </div>
         </WindowPanel>
 
