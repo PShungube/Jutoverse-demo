@@ -1,3 +1,4 @@
+import { FeedbackControls } from './components/FeedbackControls';
 import { demoAdapter } from '../../api/adapters/demoAdapter';
 import { lt } from '../../api/contracts';
 import { LoadingDeck } from '../../components/common/LoadingDeck';
@@ -41,6 +42,8 @@ export function RepresentativeAssistantPage() {
                   <p>{text(exchange.text)}</p>
                 </article>
               ))}
+              
+              <FeedbackControls />
             </div>
           </div>
         </WindowPanel>
