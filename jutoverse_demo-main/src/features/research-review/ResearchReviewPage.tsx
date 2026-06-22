@@ -1,4 +1,10 @@
-import { startTransition, useDeferredValue, useMemo, useState } from 'react';
+import {
+  startTransition,
+  useDeferredValue,
+  useMemo,
+  useState,
+  useEffect,
+} from 'react';
 import { demoAdapter } from '../../api/adapters/demoAdapter';
 import { lt } from '../../api/contracts';
 import { LoadingDeck } from '../../components/common/LoadingDeck';
@@ -13,6 +19,14 @@ export function ResearchReviewPage() {
   const { text } = useI18n();
   const [query, setQuery] = useState('');
   const [selectedProposalId, setSelectedProposalId] = useState('PR-203');
+  const [showAiReview, setShowAiReview] = useState(false);
+  const [committeeDecision, setCommitteeDecision] = useState<
+  'approved' | 'changes' | 'rejected' | null
+>(null);
+useEffect(() => {
+  setCommitteeDecision(null);
+  setShowAiReview(false);
+}, [selectedProposalId]);
   const deferredQuery = useDeferredValue(query);
 
   const filteredProposals = useMemo(() => {
@@ -81,6 +95,116 @@ export function ResearchReviewPage() {
               <span className="tag-chip tag-chip--muted">{selectedProposal.readiness}</span>
             </div>
             <p>{text(selectedProposal.recommendation ?? data.recommendation)}</p>
+<p>{text(selectedProposal.recommendation ?? data.recommendation)}</p>
+
+<div
+  style={{
+    marginTop: '1rem',
+    display: 'flex',
+    gap: '0.75rem',
+  }}
+>
+  <button
+    type="button"
+    className="tag-chip"
+    onClick={() => setShowAiReview(!showAiReview)}
+  >
+    Generate AI Review
+  </button>
+
+  <button
+    type="button"
+    className="tag-chip"
+    onClick={() => alert(`Exporting ${selectedProposal.id} report`)}
+  >
+    Export Report
+  </button>
+</div>
+
+{showAiReview && (
+  <div className="callout-box" style={{ marginTop: '1rem' }}>
+    <span className="eyebrow">AI Generated Summary</span>
+
+    <p>
+      Proposal {selectedProposal.id} received a score of{' '}
+      {selectedProposal.score}/100 based on evaluation criteria,
+      implementation readiness and expected public impact.
+    </p>
+
+    <ul className="rail-list">
+      <li>
+        Recommendation:{' '}
+        {text(selectedProposal.recommendation ?? data.recommendation)}
+      </li>
+      <li>Readiness: {selectedProposal.readiness}</li>
+      <li>Status: {text(selectedProposal.statusLabel)}</li>
+      <li>Overall Score: {selectedProposal.score}</li>
+    </ul>
+  </div>
+)}
+
+<div style={{ marginTop: '1rem' }}>
+  <span className="eyebrow">Committee Decision</span>
+
+  <div
+    style={{
+      display: 'flex',
+      gap: '0.75rem',
+      marginTop: '0.5rem',
+      flexWrap: 'wrap',
+    }}
+  >
+    <button
+      type="button"
+      className="tag-chip"
+      onClick={() => setCommitteeDecision('approved')}
+    >
+      Approve
+    </button>
+
+    <button
+      type="button"
+      className="tag-chip"
+      onClick={() => setCommitteeDecision('changes')}
+    >
+      Request Changes
+    </button>
+
+    <button
+      type="button"
+      className="tag-chip"
+      onClick={() => setCommitteeDecision('rejected')}
+    >
+      Reject
+    </button>
+  </div>
+</div>
+
+{committeeDecision && (
+  <div className="callout-box" style={{ marginTop: '1rem' }}>
+    <span className="eyebrow">Committee Outcome</span>
+
+    {committeeDecision === 'approved' && (
+      <p>
+        Proposal {selectedProposal.id} has been approved for the next review
+        phase.
+      </p>
+    )}
+
+    {committeeDecision === 'changes' && (
+      <p>
+        Proposal {selectedProposal.id} requires revisions before proceeding.
+      </p>
+    )}
+
+    {committeeDecision === 'rejected' && (
+      <p>
+        Proposal {selectedProposal.id} has been rejected based on committee
+        evaluation.
+      </p>
+    )}
+  </div>
+)}
             <div className="callout-box">
               <span className="eyebrow">{text(lt('Committee prompts', 'שאלות לוועדה'))}</span>
               <ul className="rail-list">

@@ -165,6 +165,7 @@ export type Proposal = {
   risks?: LocalizedText[];
   recommendation?: LocalizedText;
   auditTrail?: TimelineItem[];
+  
 };
 
 export type EvaluationCriterion = {

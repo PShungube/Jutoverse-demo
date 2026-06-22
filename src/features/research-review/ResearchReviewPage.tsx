@@ -13,6 +13,7 @@ export function ResearchReviewPage() {
   const { text } = useI18n();
   const [query, setQuery] = useState('');
   const [selectedProposalId, setSelectedProposalId] = useState('PR-203');
+  const [showAiReview, setShowAiReview] = useState(false);
   const deferredQuery = useDeferredValue(query);
 
   const filteredProposals = useMemo(() => {
@@ -81,6 +82,44 @@ export function ResearchReviewPage() {
               <span className="tag-chip tag-chip--muted">{selectedProposal.readiness}</span>
             </div>
             <p>{text(data.recommendation)}</p>
+
+
+<div style={{ marginTop: '1rem', display: 'flex', gap: '0.75rem' }}>
+  <button
+    type="button"
+    className="tag-chip"
+    onClick={() => setShowAiReview(true)}
+  >
+    Generate AI Review
+  </button>
+
+  <button
+    type="button"
+    className="tag-chip"
+    onClick={() => alert(`Exporting ${selectedProposal.id} report`)}
+  >
+    Export Report
+  </button>
+</div>
+
+{showAiReview && (
+  <div className="callout-box" style={{ marginTop: '1rem' }}>
+    <span className="eyebrow">AI Generated Summary</span>
+
+    <p>
+      Proposal {selectedProposal.id} scored {selectedProposal.score}/100
+      based on scientific merit, implementation readiness,
+      public benefit and governance criteria.
+    </p>
+
+    <ul className="rail-list">
+      <li>Proposal ID: {selectedProposal.id}</li>
+      <li>Readiness: {selectedProposal.readiness}</li>
+      <li>Status: {text(selectedProposal.statusLabel)}</li>
+    </ul>
+  </div>
+)}
+
             <div className="callout-box">
               <span className="eyebrow">{text(lt('Committee prompts', 'שאלות לוועדה'))}</span>
               <ul className="rail-list">
@@ -93,7 +132,7 @@ export function ResearchReviewPage() {
 
         <WindowPanel title={lt('Criteria scores', 'ציוני קריטריונים')} subtitle={lt('The review surface shows explicit rationale, not opaque scoring.', 'משטח הסקירה מציג נימוקים מפורשים ולא דירוג אטום.')} eyebrow={lt('Evaluation', 'הערכה')} accent="info">
           <div className="stack-list">
-            {data.criteria.map((criterion) => (
+            {(selectedProposal.criteria ?? data.criteria).map((criterion) => (
               <article key={criterion.id} className="progress-card progress-card--tight">
                 <div className="progress-card__header">
                   <strong>{text(criterion.label)}</strong>
@@ -113,7 +152,7 @@ export function ResearchReviewPage() {
             <div>
               <h3>{text(lt('Strengths', 'חוזקות'))}</h3>
               <ul className="rail-list">
-                {data.strengths.map((item, index) => (
+                {(selectedProposal.strengths ?? data.strengths).map((item, index) => (
                   <li key={index}>{text(item)}</li>
                 ))}
               </ul>
@@ -121,7 +160,7 @@ export function ResearchReviewPage() {
             <div>
               <h3>{text(lt('Risks', 'סיכונים'))}</h3>
               <ul className="rail-list">
-                {data.risks.map((item, index) => (
+                {(selectedProposal.risks ?? data.risks).map((item, index) => (
                   <li key={index}>{text(item)}</li>
                 ))}
               </ul>
@@ -131,7 +170,7 @@ export function ResearchReviewPage() {
 
         <WindowPanel title={lt('Audit trail', 'שביל ביקורת')} subtitle={lt('Every recommendation remains explainable and review-safe.', 'כל המלצה נשארת ברת הסבר ובטוחה לסקירה.')} eyebrow={lt('Traceability', 'עקיבות')} accent="accent">
           <div className="timeline-list">
-            {data.auditTrail.map((item) => (
+            {(selectedProposal.auditTrail ?? data.auditTrail).map((item) => (
               <article key={item.id} className="timeline-item">
                 <StatusPill tone={item.status} label={text(item.label)} />
                 <p>{text(item.detail)}</p>
