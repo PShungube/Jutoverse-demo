@@ -29,7 +29,7 @@ export function QueryComposer() {
         }}
       />
 
-      <button onClick={handleSubmit}>
+      <button type="button" onClick={handleSubmit}>
         Send
       </button>
     </div>

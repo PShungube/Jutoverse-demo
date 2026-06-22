@@ -1,14 +1,10 @@
 export function GroundedAnswerCard() {
   return (
-    <div
-      style={{
-        marginTop: '1rem',
-        padding: '1rem',
-        border: '1px solid rgba(255,255,255,0.15)',
-        borderRadius: '12px',
-      }}
-    >
-      <h3>Grounded Answer</h3>
+    <div className="citation-card">
+      <div className="signal-row__topline">
+        <strong>Grounded Answer</strong>
+        <span>Confidence: 92%</span>
+      </div>
 
       <p>
         According to Government Benefits Procedure GOV-204,
@@ -17,8 +13,14 @@ export function GroundedAnswerCard() {
         documentation.
       </p>
 
-      <div style={{ marginTop: '0.75rem' }}>
-        <strong>Confidence:</strong> 92%
+      <div className="stack-list">
+        <strong>Evidence Sources</strong>
+
+        <ul>
+          <li>Benefits Manual 2025</li>
+          <li>Disability Services Circular</li>
+          <li>Citizen Support Policy</li>
+        </ul>
       </div>
     </div>
   );
