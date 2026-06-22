@@ -95,7 +95,7 @@ useEffect(() => {
               <span className="tag-chip tag-chip--muted">{selectedProposal.readiness}</span>
             </div>
             <p>{text(selectedProposal.recommendation ?? data.recommendation)}</p>
-<p>{text(selectedProposal.recommendation ?? data.recommendation)}</p>
+
 
 <div
   style={{
@@ -301,6 +301,130 @@ useEffect(() => {
         <StatusPill tone="success" label={text(lt('Complete', 'הושלם'))} />
       </div>
     </article>
+  </div>
+</WindowPanel>
+<WindowPanel
+  title={lt('Proposal Comparison', 'השוואת הצעות')}
+  subtitle={lt(
+    'Quick comparison across all submitted proposals.',
+    'השוואה מהירה בין כל ההצעות.'
+  )}
+  eyebrow={lt('Committee Insights', 'תובנות ועדה')}
+  accent="success"
+>
+  <div className="stack-list">
+    {data.proposals
+      .slice()
+      .sort((a, b) => b.score - a.score)
+      .map((proposal) => (
+        <article
+          key={proposal.id}
+          className="progress-card progress-card--tight"
+        >
+          <div className="progress-card__header">
+            <strong>{proposal.id}</strong>
+
+            <StatusPill
+              tone={
+                proposal.score >= 88
+                  ? 'success'
+                  : proposal.score >= 80
+                  ? 'accent'
+                  : 'warning'
+              }
+              label={`${proposal.score}`}
+            />
+          </div>
+
+          <div className="progress-card__footer">
+            <strong>{text(proposal.title)}</strong>
+            <br />
+            {text(proposal.statusLabel)}
+          </div>
+        </article>
+      ))}
+  </div>
+
+  <div className="callout-box" style={{ marginTop: '1rem' }}>
+    <span className="eyebrow">
+      {text(
+        lt(
+          'AI Ranking Insight',
+          'תובנת דירוג מבוססת AI'
+        )
+      )}
+    </span>
+
+    <p>
+      {text(
+        lt(
+          'PR-203 currently ranks highest based on evaluation score, readiness and projected public impact.',
+          'PR-203 מדורגת ראשונה בהתבסס על ציון ההערכה, מוכנות והשפעה ציבורית צפויה.'
+        )
+      )}
+    </p>
+  </div>
+</WindowPanel>
+<WindowPanel
+  title={lt('Review History', 'היסטוריית סקירה')}
+  subtitle={lt(
+    'Tracks every review action for transparency.',
+    'עוקב אחר כל פעולת סקירה לצורך שקיפות.'
+  )}
+  eyebrow={lt('Activity Log', 'יומן פעילות')}
+  accent="accent"
+>
+  <div className="timeline-list">
+
+    <article className="timeline-item">
+      <StatusPill
+        tone="success"
+        label={text(lt('Completed', 'הושלם'))}
+      />
+      <p>
+        Proposal {selectedProposal.id} submitted for committee review.
+      </p>
+    </article>
+
+    <article className="timeline-item">
+      <StatusPill
+        tone="info"
+        label={text(lt('AI Analysis', 'ניתוח AI'))}
+      />
+      <p>
+        AI extracted proposal sections and generated evaluation scores.
+      </p>
+    </article>
+
+    <article className="timeline-item">
+      <StatusPill
+        tone="accent"
+        label={text(lt('Committee Viewed', 'נצפה על ידי הוועדה'))}
+      />
+      <p>
+        Committee members opened and reviewed the proposal.
+      </p>
+    </article>
+
+    {committeeDecision && (
+      <article className="timeline-item">
+        <StatusPill
+          tone="success"
+          label={text(lt('Decision Recorded', 'החלטה נשמרה'))}
+        />
+
+        <p>
+          Committee decision:
+          {' '}
+          {committeeDecision === 'approved'
+            ? 'Approved'
+            : committeeDecision === 'changes'
+            ? 'Changes Requested'
+            : 'Rejected'}
+        </p>
+      </article>
+    )}
+
   </div>
 </WindowPanel>
       </div>
