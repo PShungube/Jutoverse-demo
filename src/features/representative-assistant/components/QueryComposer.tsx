@@ -1,12 +1,16 @@
 import { useState } from 'react';
 
-export function QueryComposer() {
+type QueryComposerProps = {
+  onSubmit: (question: string) => void;
+};
+
+export function QueryComposer({ onSubmit }: QueryComposerProps) {
   const [query, setQuery] = useState('');
 
   const handleSubmit = () => {
     if (!query.trim()) return;
 
-    alert(`Question submitted: ${query}`);
+    onSubmit(query);
     setQuery('');
   };
 

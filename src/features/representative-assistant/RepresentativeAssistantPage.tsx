@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { getAssistantResponse } from '../../api/adapters/assistantAdapter';
 import { GroundedAnswerCard } from './components/GroundedAnswerCard';
 import { QueryComposer } from './components/QueryComposer';
 import { FeedbackControls } from './components/FeedbackControls';
@@ -9,10 +11,43 @@ import { StatusPill } from '../../components/common/StatusPill';
 import { WindowPanel } from '../../components/common/WindowPanel';
 import { useMockResource } from '../../hooks/useMockResource';
 import { useI18n } from '../../i18n/I18nProvider';
+import { ConversationContext } from './components/ConversationContext';
 
 export function RepresentativeAssistantPage() {
   const { data, loading } = useMockResource(demoAdapter.getAssistantSnapshot);
   const { text } = useI18n();
+
+const [messages, setMessages] = useState<
+  { role: 'user' | 'assistant'; text: string }[]
+>([]);
+
+const [assistantResponse, setAssistantResponse] =
+  useState<{
+    answer: string;
+    confidence: number;
+    citations: string[];
+  } | null>(null);
+
+const handleQuestionSubmit = async (
+  question: string
+) => {
+  const response =
+    await getAssistantResponse(question);
+
+  setMessages((prev) => [
+    ...prev,
+    {
+      role: 'user',
+      text: question,
+    },
+    {
+      role: 'assistant',
+      text: response.answer,
+    },
+  ]);
+
+  setAssistantResponse(response);
+};
 
   if (loading || !data) return <LoadingDeck />;
 
@@ -44,12 +79,42 @@ export function RepresentativeAssistantPage() {
                   <p>{text(exchange.text)}</p>
                 </article>
               ))}
+{messages.map((message, index) => (
+  <article
+    key={index}
+    className={`chat-bubble chat-bubble--${
+      message.role === 'user' ? 'agent' : 'assistant'
+    }`}
+  >
+    <span className="chat-bubble__speaker">
+      {message.role === 'user'
+        ? 'Representative'
+        : 'Assistant'}
+    </span>
 
+    <p>{message.text}</p>
+  </article>
+))}
               <FeedbackControls />
             </div>
-            <QueryComposer />
+            <QueryComposer onSubmit={handleQuestionSubmit} />
 
-            <GroundedAnswerCard />
+            {assistantResponse && (
+  <GroundedAnswerCard
+    answer={assistantResponse.answer}
+    confidence={assistantResponse.confidence}
+    citations={assistantResponse.citations}
+  />
+)}
+{assistantResponse && (
+  <GroundedAnswerCard
+    answer={assistantResponse.answer}
+    confidence={assistantResponse.confidence}
+    citations={assistantResponse.citations}
+  />
+)}
+
+<ConversationContext />
           </div>
         </WindowPanel>
 

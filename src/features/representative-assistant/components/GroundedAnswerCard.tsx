@@ -1,25 +1,32 @@
-export function GroundedAnswerCard() {
+import { ConfidenceBadge } from './ConfidenceBadge';
+
+type GroundedAnswerCardProps = {
+  answer: string;
+  confidence: number;
+  citations: string[];
+};
+
+export function GroundedAnswerCard({
+  answer,
+  confidence,
+  citations,
+}: GroundedAnswerCardProps) {
   return (
     <div className="citation-card">
       <div className="signal-row__topline">
         <strong>Grounded Answer</strong>
-        <span>Confidence: 92%</span>
+        <ConfidenceBadge score={confidence} />
       </div>
 
-      <p>
-        According to Government Benefits Procedure GOV-204,
-        citizens requesting disability support must first
-        complete identity verification and submit supporting
-        documentation.
-      </p>
+      <p>{answer}</p>
 
       <div className="stack-list">
         <strong>Evidence Sources</strong>
 
         <ul>
-          <li>Benefits Manual 2025</li>
-          <li>Disability Services Circular</li>
-          <li>Citizen Support Policy</li>
+          {citations.map((citation) => (
+            <li key={citation}>{citation}</li>
+          ))}
         </ul>
       </div>
     </div>
