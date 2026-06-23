@@ -106,13 +106,6 @@ const handleQuestionSubmit = async (
     citations={assistantResponse.citations}
   />
 )}
-{assistantResponse && (
-  <GroundedAnswerCard
-    answer={assistantResponse.answer}
-    confidence={assistantResponse.confidence}
-    citations={assistantResponse.citations}
-  />
-)}
 
 <ConversationContext />
           </div>
