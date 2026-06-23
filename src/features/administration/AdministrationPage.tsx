@@ -8,7 +8,8 @@ import { ThemeSwitcher } from '../../components/common/ThemeSwitcher';
 import { WindowPanel } from '../../components/common/WindowPanel';
 import { useMockResource } from '../../hooks/useMockResource';
 import { useI18n } from '../../i18n/I18nProvider';
-
+import { SourceHealthCard } from './components/SourceHealthCard';
+import { EnvironmentSummaryCard } from './components/EnvironmentSummaryCard';
 export function AdministrationPage() {
   const { data, loading } = useMockResource(demoAdapter.getAdministrationSnapshot);
   const { text } = useI18n();
@@ -64,7 +65,20 @@ export function AdministrationPage() {
             ))}
           </div>
         </WindowPanel>
-
+<WindowPanel
+  title={lt('Platform health', 'בריאות הפלטפורמה')}
+  subtitle={lt(
+    'Operational visibility for future integrations.',
+    'נראות תפעולית לאינטגרציות עתידיות.'
+  )}
+  eyebrow={lt('Operations', 'תפעול')}
+  accent="success"
+>
+  <div className="capability-grid">
+    <SourceHealthCard />
+    <EnvironmentSummaryCard />
+  </div>
+</WindowPanel>
         <WindowPanel title={lt('Governance signals', 'אותות ממשל')} subtitle={lt('These cards capture the execution constraints the UI still respects.', 'כרטיסים אלה לוכדים את מגבלות הביצוע שה-UI עדיין מכבד.')} eyebrow={lt('Contract Watch', 'פיקוח חוזים')} accent="success">
           <div className="timeline-list">
             {data.governanceSignals.map((item) => (
