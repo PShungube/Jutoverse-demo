@@ -32,6 +32,9 @@ const translations = {
     approve: 'Approve',
     reject: 'Reject',
     requestChanges: 'Request Changes',
+    reviewStatistics: "Review Statistics",
+    liveOverview: "Live committee overview.",
+    dashboard: "Dashboard",
   },
 
   he: {
@@ -39,6 +42,9 @@ const translations = {
     approve: 'אשר',
     reject: 'דחה',
     requestChanges: 'בקש שינויים',
+    reviewStatistics: "סטטיסטיקות סקירה",
+    liveOverview: "סקירת נתוני הוועדה בזמן אמת.",
+    dashboard: "לוח מחוונים",
   },
 
   ar: {
@@ -46,6 +52,9 @@ const translations = {
     approve: 'موافقة',
     reject: 'رفض',
     requestChanges: 'طلب تعديلات',
+    reviewStatistics: "إحصائيات المراجعة",
+    liveOverview: "نظرة عامة مباشرة للجنة",
+    dashboard: "لوحة التحكم",
   },
 
   ru: {
@@ -53,6 +62,9 @@ const translations = {
     approve: 'Одобрить',
     reject: 'Отклонить',
     requestChanges: 'Запросить изменения',
+    reviewStatistics: "Статистика проверки",
+    liveOverview: "Обзор работы комиссии в реальном времени",
+    dashboard: "Панель управления",
   },
 };
 const [selectedHistoryEvent, setSelectedHistoryEvent] = useState<
