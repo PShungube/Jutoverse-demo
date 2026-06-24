@@ -551,6 +551,49 @@ export const researchReviewSnapshot: ResearchReviewSnapshot = {
       score: 91,
       statusLabel: lt('Shortlist candidate', 'מועמד לרשימה קצרה'),
       readiness: 'Ready',
+      recommendation: lt('Recommend shortlist and pilot preparation.', 'מומלץ לרשימה קצרה ולהכנת פיילוט.'),
+      strengths: [lt('Strong public-health impact.', 'השפעה חזקה על בריאות הציבור')],
+      risks: [lt('Requires external data agreement.', 'דורש הסכם נתונים חיצוני')],
+      criteria: [
+  {
+    id: 'impact',
+    label: lt('Public Impact', 'השפעה ציבורית'),
+    score: 94,
+    rationale: lt(
+      'Strong potential to improve healthcare access in underserved districts.',
+      'פוטנציאל גבוה לשיפור הנגישות לשירותי בריאות.'
+    ),
+  },
+  {
+    id: 'feasibility',
+    label: lt('Feasibility', 'ישימות'),
+    score: 88,
+    rationale: lt(
+      'Data partnerships already identified.',
+      'שותפויות הנתונים כבר זוהו.'
+    ),
+  },
+],
+      auditTrail: [
+  {
+    id: '1',
+    status: 'success',
+    label: lt('Document analyzed', 'מסמך נותח'),
+    detail: lt(
+      'Proposal sections extracted successfully.',
+      'חלקי ההצעה חולצו בהצלחה.'
+    ),
+  },
+  {
+    id: '2',
+    status: 'accent',
+    label: lt('Committee review required', 'נדרשת סקירת ועדה'),
+    detail: lt(
+      'Recommendation generated for committee consideration.',
+      'הופקה המלצה לשיקול הוועדה.'
+    ),
+  },
+],
     },
     {
       id: 'PR-204',
@@ -559,6 +602,58 @@ export const researchReviewSnapshot: ResearchReviewSnapshot = {
       score: 86,
       statusLabel: lt('Needs committee discussion', 'דורש דיון בוועדה'),
       readiness: 'Review',
+      recommendation: lt('Committee discussion recommended.', 'מומלץ לדיון בוועדה.'),
+      strengths: [lt('Excellent multilingual reach.', 'כיסוי רב לשוני מצוין')],
+      risks: [lt('Adoption risk across agencies.', 'סיכון אימוץ בין גופים')],
+      criteria: [
+  {
+    id: 'impact',
+    label: lt('Citizen Reach', 'היקף השפעה על אזרחים'),
+    score: 89,
+    rationale: lt(
+      'Supports multiple languages and accessibility goals.',
+      'תומך במספר שפות וביעדי נגישות.'
+    ),
+  },
+  {
+    id: 'adoption',
+    label: lt('Adoption Readiness', 'מוכנות לאימוץ'),
+    score: 78,
+    rationale: lt(
+      'Requires agency-wide training.',
+      'דורש הכשרה רחבת היקף.'
+    ),
+  },
+],
+      auditTrail: [
+  {
+    id: '1',
+    status: 'success',
+    label: lt('Document analyzed', 'מסמך נותח'),
+    detail: lt(
+      'Proposal content extracted and classified successfully.',
+      'תוכן ההצעה חולץ וסווג בהצלחה.'
+    ),
+  },
+  {
+    id: '2',
+    status: 'accent',
+    label: lt('Translation assessment completed', 'הערכת תרגום הושלמה'),
+    detail: lt(
+      'Multilingual coverage validated across target languages.',
+      'הכיסוי הרב-לשוני אומת עבור שפות היעד.'
+    ),
+  },
+  {
+    id: '3',
+    status: 'warning',
+    label: lt('Committee discussion required', 'נדרש דיון בוועדה'),
+    detail: lt(
+      'Adoption readiness requires cross-agency review.',
+      'מוכנות האימוץ דורשת סקירה בין-משרדית.'
+    ),
+  },
+],
     },
     {
       id: 'PR-205',
@@ -567,6 +662,58 @@ export const researchReviewSnapshot: ResearchReviewSnapshot = {
       score: 78,
       statusLabel: lt('Evidence gap flagged', 'פער ראיות זוהה'),
       readiness: 'Gap',
+      recommendation: lt('Evidence gaps must be addressed.', 'יש לטפל בפערי הראיות.'),
+      strengths: [lt('Strong fraud-detection potential.', 'פוטנציאל חזק לזיהוי הונאות')],
+      risks: [lt('Limited validation dataset.', 'מאגר אימות מוגבל')],
+      criteria: [
+  {
+    id: 'innovation',
+    label: lt('Innovation', 'חדשנות'),
+    score: 90,
+    rationale: lt(
+      'Strong anomaly-detection capability.',
+      'יכולת חזקה לזיהוי חריגות.'
+    ),
+  },
+  {
+    id: 'evidence',
+    label: lt('Evidence Quality', 'איכות הראיות'),
+    score: 62,
+    rationale: lt(
+      'Validation dataset remains limited.',
+      'מערך האימות עדיין מוגבל.'
+    ),
+  },
+],
+      auditTrail: [
+  {
+    id: '1',
+    status: 'success',
+    label: lt('Document analyzed', 'מסמך נותח'),
+    detail: lt(
+      'Proposal sections processed successfully.',
+      'חלקי ההצעה עובדו בהצלחה.'
+    ),
+  },
+  {
+    id: '2',
+    status: 'warning',
+    label: lt('Evidence gap detected', 'זוהה פער בראיות'),
+    detail: lt(
+      'Validation dataset is insufficient for full confidence scoring.',
+      'מערך האימות אינו מספק לצורך דירוג מלא ברמת ביטחון גבוהה.'
+    ),
+  },
+  {
+    id: '3',
+    status: 'warning',
+    label: lt('Additional review required', 'נדרשת סקירה נוספת'),
+    detail: lt(
+      'Committee should request additional supporting evidence.',
+      'הוועדה צריכה לבקש ראיות תומכות נוספות.'
+    ),
+  },
+],
     },
   ],
   criteria: [

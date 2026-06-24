@@ -154,6 +154,11 @@ export type CitizenServicesSnapshot = {
 };
 
 export type Proposal = {
+  criteria: EvaluationCriterion[];
+  auditTrail: TimelineItem[];
+  risks: LocalizedText[];
+  strengths: LocalizedText[];
+  recommendation: LocalizedText;
   id: string;
   title: LocalizedText;
   domain: LocalizedText;
