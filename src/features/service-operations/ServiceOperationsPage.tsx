@@ -7,6 +7,7 @@ import { StatusPill } from '../../components/common/StatusPill';
 import { WindowPanel } from '../../components/common/WindowPanel';
 import { useMockResource } from '../../hooks/useMockResource';
 import { useI18n } from '../../i18n/I18nProvider';
+import { AnalyticsDashboard } from '../../components/AnalyticsDashboard';
 
 export function ServiceOperationsPage() {
   const { data, loading } = useMockResource(demoAdapter.getServiceOperationsSnapshot);
@@ -181,6 +182,16 @@ export function ServiceOperationsPage() {
             ))}
           </div>
         </WindowPanel>
+
+        <WindowPanel
+  className="page-grid__span-2"
+  title={lt('AI Analytics Dashboard', 'לוח ניתוח AI')}
+  subtitle={lt('Advanced operational intelligence layer', 'שכבת מודיעין תפעולי מתקדם')}
+  eyebrow={lt('Analytics Layer', 'שכבת אנליטיקה')}
+  accent="info"
+>
+  <AnalyticsDashboard data={data} />
+</WindowPanel>
       </div>
     </div>
   );
