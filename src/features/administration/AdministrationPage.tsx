@@ -8,8 +8,14 @@ import { ThemeSwitcher } from '../../components/common/ThemeSwitcher';
 import { WindowPanel } from '../../components/common/WindowPanel';
 import { useMockResource } from '../../hooks/useMockResource';
 import { useI18n } from '../../i18n/I18nProvider';
+<<<<<<< Updated upstream
 import { SourceHealthCard } from './components/SourceHealthCard';
 import { EnvironmentSummaryCard } from './components/EnvironmentSummaryCard';
+=======
+import { WorkflowConfiguration } from './components/WorkflowConfiguration';
+import { AuditTable } from './components/AuditTable';
+
+>>>>>>> Stashed changes
 export function AdministrationPage() {
   const { data, loading } = useMockResource(demoAdapter.getAdministrationSnapshot);
   const { text } = useI18n();
@@ -25,6 +31,8 @@ export function AdministrationPage() {
       </div>
 
       <div className="page-grid page-grid--admin">
+
+        
         <WindowPanel title={lt('Connector posture', 'עמדת המחברים')} subtitle={lt('Each mock connector reflects a future integration contract without overpromising implementation.', 'כל מחבר מוקאפ משקף חוזה אינטגרציה עתידי מבלי להבטיח יישום יתר.')} eyebrow={lt('Platform Connectors', 'מחברי פלטפורמה')} accent="accent">
           <div className="capability-grid">
             {data.connectors.map((connector) => (
@@ -41,13 +49,54 @@ export function AdministrationPage() {
             ))}
           </div>
         </WindowPanel>
+        <WindowPanel
+  title={lt('Experience controls', 'בקרות חוויה')}
+  subtitle={lt(
+    'The token-driven theme model from react-poc is preserved here as a first-class control.',
+    'מודל ערכות הנושא מונחה הטוקנים של react-poc נשמר כאן כבקרה ממדרגה ראשונה.'
+  )}
+  eyebrow={lt('Theme Runtime', 'מנוע ערכות נושא')}
+  accent="info"
+>
+  <div className="admin-theme-panel">
+    <ThemeSwitcher />
+    <p>
+      {text(
+        lt(
+          'Jutoverse remains the default, but alternate controlled palettes are available for demos and accessibility review.',
+          'Jutoverse נשאר ברירת המחדל, אך פלטות מבוקרות נוספות זמינות להדגמות ולסקירת נגישות.'
+        )
+      )}
+    </p>
+  </div>
+</WindowPanel>
+        <WindowPanel
+          title={lt('Environment health', 'בריאות סביבה')}
+          subtitle={lt(
+            'Frontend runtime status overview.',
+            'סקירת מצב סביבת הפרונטנד'
+          )}
+          eyebrow={lt('Runtime', 'סביבת ריצה')}
+          accent="success" children={undefined}>
+</WindowPanel>
 
-        <WindowPanel title={lt('Experience controls', 'בקרות חוויה')} subtitle={lt('The token-driven theme model from react-poc is preserved here as a first-class control.', 'מודל ערכות הנושא מונחה הטוקנים של react-poc נשמר כאן כבקרה ממדרגה ראשונה.')} eyebrow={lt('Theme Runtime', 'מנוע ערכות נושא')} accent="info">
-          <div className="admin-theme-panel">
-            <ThemeSwitcher />
-            <p>{text(lt('Jutoverse remains the default, but alternate controlled palettes are available for demos and accessibility review.', 'Jutoverse נשאר ברירת המחדל, אך פלטות מבוקרות נוספות זמינות להדגמות ולסקירת נגישות.'))}</p>
-          </div>
-        </WindowPanel>
+<WindowPanel
+  title={lt(
+    'Workflow configuration',
+    'תצורת זרימה'
+  )}
+  subtitle={lt(
+    'Future workflow settings.',
+    'הגדרות עתידיות של זרימות עבודה'
+  )}
+  eyebrow={lt(
+    'Configuration',
+    'תצורה'
+  )}
+  accent="info"
+>
+  <WorkflowConfiguration />
+</WindowPanel>
 
         <WindowPanel className="page-grid__span-2" title={lt('Audit events', 'אירועי ביקורת')} subtitle={lt('Human actions, privacy signals, and committee access remain visible in one timeline.', 'פעולות אנושיות, אותות פרטיות וגישה של ועדות נשארים גלויים בציר אחד.')} eyebrow={lt('Governance Feed', 'פיד ממשל')} accent="warning">
           <div className="stack-list">
@@ -65,6 +114,7 @@ export function AdministrationPage() {
             ))}
           </div>
         </WindowPanel>
+<<<<<<< Updated upstream
 <WindowPanel
   title={lt('Platform health', 'בריאות הפלטפורמה')}
   subtitle={lt(
@@ -79,6 +129,20 @@ export function AdministrationPage() {
     <EnvironmentSummaryCard />
   </div>
 </WindowPanel>
+=======
+        <WindowPanel
+  title={lt('Audit visibility table', 'טבלת ביקורת')}
+  subtitle={lt(
+    'Structured audit visibility.',
+    'תצוגת ביקורת מובנית'
+  )}
+  eyebrow={lt('Audit', 'ביקורת')}
+  accent="warning"
+>
+  <AuditTable />
+</WindowPanel>
+
+>>>>>>> Stashed changes
         <WindowPanel title={lt('Governance signals', 'אותות ממשל')} subtitle={lt('These cards capture the execution constraints the UI still respects.', 'כרטיסים אלה לוכדים את מגבלות הביצוע שה-UI עדיין מכבד.')} eyebrow={lt('Contract Watch', 'פיקוח חוזים')} accent="success">
           <div className="timeline-list">
             {data.governanceSignals.map((item) => (
