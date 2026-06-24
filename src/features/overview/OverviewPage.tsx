@@ -99,9 +99,24 @@ export function OverviewPage() {
               </div>
 
               <div className="reasoning-box">
-                <h4>AI Confidence</h4>
-                <p>0.82 (High confidence signal cluster)</p>
-              </div>
+  <h4>AI Confidence</h4>
+
+  <div className="confidence-panel">
+    <div className="confidence-header">
+      <span>Confidence Score</span>
+      <strong>82%</strong>
+    </div>
+
+    <div className="confidence-bar">
+      <span style={{ width: '82%' }} />
+    </div>
+
+    <p>
+      Signal confidence exceeds operational review threshold and
+      is recommended for analyst validation.
+    </p>
+  </div>
+</div>
 
               <div className="reasoning-box">
                 <h4>Key Signals</h4>
@@ -195,4 +210,6 @@ export function OverviewPage() {
       </div>
     </div>
   );
+
 }
+
