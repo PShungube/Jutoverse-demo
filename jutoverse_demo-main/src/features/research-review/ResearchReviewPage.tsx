@@ -23,9 +23,13 @@ export function ResearchReviewPage() {
   const [committeeDecision, setCommitteeDecision] = useState<
   'approved' | 'changes' | 'rejected' | null
 >(null);
+const [selectedHistoryEvent, setSelectedHistoryEvent] = useState<
+  string | null
+>(null);
 useEffect(() => {
   setCommitteeDecision(null);
   setShowAiReview(false);
+  setSelectedHistoryEvent(null);
 }, [selectedProposalId]);
   const deferredQuery = useDeferredValue(query);
 
@@ -140,6 +144,28 @@ useEffect(() => {
       <li>Status: {text(selectedProposal.statusLabel)}</li>
       <li>Overall Score: {selectedProposal.score}</li>
     </ul>
+    <div
+  style={{
+    marginTop: '1rem',
+    padding: '0.75rem',
+    border: '1px solid rgba(255,255,255,0.15)',
+    borderRadius: '10px',
+  }}
+>
+  <span className="eyebrow">AI Confidence Score</span>
+
+  <div
+    className="progress-bar"
+    style={{ marginTop: '0.5rem' }}
+  >
+    <span style={{ width: '95%' }} />
+  </div>
+
+  <p style={{ marginTop: '0.5rem' }}>
+    95% confidence based on document completeness,
+    evaluation consistency and historical proposal patterns.
+  </p>
+</div>
   </div>
 )}
 
@@ -366,6 +392,54 @@ useEffect(() => {
   </div>
 </WindowPanel>
 <WindowPanel
+  className="page-grid__span-1"
+  title={lt('Review Statistics', 'סטטיסטיקות סקירה')}
+  subtitle={lt(
+    'Live committee overview.',
+    'סקירת נתוני הוועדה בזמן אמת.'
+  )}
+  eyebrow={lt('Dashboard', 'לוח מחוונים')}
+  accent="info"
+>
+  <div className="stack-list">
+
+    <article className="progress-card progress-card--tight">
+      <div className="progress-card__header">
+        <strong>Approved</strong>
+        <span>18</span>
+      </div>
+    </article>
+
+    <article className="progress-card progress-card--tight">
+      <div className="progress-card__header">
+        <strong>Pending</strong>
+        <span>6</span>
+      </div>
+    </article>
+
+    <article className="progress-card progress-card--tight">
+      <div className="progress-card__header">
+        <strong>Rejected</strong>
+        <span>3</span>
+      </div>
+    </article>
+
+  </div>
+
+  <div className="callout-box" style={{ marginTop: '1rem' }}>
+    <span className="eyebrow">AI Insight</span>
+
+    <p>
+      Proposal approval rate is currently
+      <strong> 67% </strong>
+      with an average AI recommendation score of
+      <strong> 88/100</strong>.
+    </p>
+  </div>
+
+</WindowPanel>
+<WindowPanel
+  className="page-grid__span-1"
   title={lt('Review History', 'היסטוריית סקירה')}
   subtitle={lt(
     'Tracks every review action for transparency.',
@@ -376,7 +450,11 @@ useEffect(() => {
 >
   <div className="timeline-list">
 
-    <article className="timeline-item">
+    <button
+      type="button"
+      className="timeline-item"
+      onClick={() => setSelectedHistoryEvent('submitted')}
+    >
       <StatusPill
         tone="success"
         label={text(lt('Completed', 'הושלם'))}
@@ -384,9 +462,13 @@ useEffect(() => {
       <p>
         Proposal {selectedProposal.id} submitted for committee review.
       </p>
-    </article>
+    </button>
 
-    <article className="timeline-item">
+    <button
+      type="button"
+      className="timeline-item"
+      onClick={() => setSelectedHistoryEvent('analysis')}
+    >
       <StatusPill
         tone="info"
         label={text(lt('AI Analysis', 'ניתוח AI'))}
@@ -394,9 +476,13 @@ useEffect(() => {
       <p>
         AI extracted proposal sections and generated evaluation scores.
       </p>
-    </article>
+    </button>
 
-    <article className="timeline-item">
+    <button
+      type="button"
+      className="timeline-item"
+      onClick={() => setSelectedHistoryEvent('viewed')}
+    >
       <StatusPill
         tone="accent"
         label={text(lt('Committee Viewed', 'נצפה על ידי הוועדה'))}
@@ -404,10 +490,14 @@ useEffect(() => {
       <p>
         Committee members opened and reviewed the proposal.
       </p>
-    </article>
+    </button>
 
     {committeeDecision && (
-      <article className="timeline-item">
+      <button
+        type="button"
+        className="timeline-item"
+        onClick={() => setSelectedHistoryEvent('decision')}
+      >
         <StatusPill
           tone="success"
           label={text(lt('Decision Recorded', 'החלטה נשמרה'))}
@@ -422,11 +512,54 @@ useEffect(() => {
             ? 'Changes Requested'
             : 'Rejected'}
         </p>
-      </article>
+      </button>
     )}
 
   </div>
+
+  {selectedHistoryEvent && (
+    <div
+      className="callout-box"
+      style={{ marginTop: '1rem' }}
+    >
+      <span className="eyebrow">
+        Event Details
+      </span>
+
+      {selectedHistoryEvent === 'submitted' && (
+        <p>
+          Proposal {selectedProposal.id} was uploaded and
+          entered into the review workflow. Initial validation
+          checks were completed successfully.
+        </p>
+      )}
+
+      {selectedHistoryEvent === 'analysis' && (
+        <p>
+          The AI extracted document sections, evaluated
+          criteria, generated risk assessments and calculated
+          the overall recommendation score.
+        </p>
+      )}
+
+      {selectedHistoryEvent === 'viewed' && (
+        <p>
+          Committee members accessed the proposal,
+          reviewed supporting documents and examined
+          AI-generated recommendations.
+        </p>
+      )}
+
+      {selectedHistoryEvent === 'decision' && (
+        <p>
+          The committee decision was recorded and
+          added to the audit trail.
+        </p>
+      )}
+    </div>
+  )}
 </WindowPanel>
+
       </div>
     </div>
   );
