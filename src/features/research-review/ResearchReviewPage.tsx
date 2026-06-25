@@ -71,6 +71,9 @@ const translations = {
 const [selectedHistoryEvent, setSelectedHistoryEvent] = useState<
   string | null
 >(null);
+const [selectedPipelineStep, setSelectedPipelineStep] = useState<
+  string | null
+>(null);
 const [comparisonProposal, setComparisonProposal] = useState<
   string | null
 >(null);
@@ -478,7 +481,9 @@ ${text(selectedProposal.recommendation ?? data.recommendation)}
           </div>
         </WindowPanel>
 
-        <WindowPanel title={lt('Criteria scores', 'ציוני קריטריונים')} subtitle={lt('The review surface shows explicit rationale, not opaque scoring.', 'משטח הסקירה מציג נימוקים מפורשים ולא דירוג אטום.')} eyebrow={lt('Evaluation', 'הערכה')} accent="info">
+        <div id="criteria-scores">
+  <WindowPanel
+    title={lt('Criteria scores', 'ציוני קריטריונים')} subtitle={lt('The review surface shows explicit rationale, not opaque scoring.', 'משטח הסקירה מציג נימוקים מפורשים ולא דירוג אטום.')} eyebrow={lt('Evaluation', 'הערכה')} accent="info">
           <div className="stack-list">
             {(selectedProposal.criteria ?? data.criteria).map((criterion) => (
               <article key={criterion.id} className="progress-card progress-card--tight">
@@ -494,6 +499,7 @@ ${text(selectedProposal.recommendation ?? data.recommendation)}
             ))}
           </div>
         </WindowPanel>
+        </div>
 
         <WindowPanel title={lt('Strengths and risks', 'חוזקות וסיכונים')} subtitle={lt('The committee gets a readable brief, not raw document dump.', 'הוועדה מקבלת תדריך קריא ולא הצפת מסמכים גולמיים.')} eyebrow={lt('Review Notes', 'הערות סקירה')} accent="warning">
           <div className="dual-list">
@@ -537,33 +543,61 @@ ${text(selectedProposal.recommendation ?? data.recommendation)}
   accent="info"
 >
   <div className="stack-list">
-    <article className="progress-card progress-card--tight">
+    <button
+  type="button"
+  className="progress-card progress-card--tight"
+  onClick={() => setSelectedPipelineStep('upload')}
+>
       <div className="progress-card__header">
         <strong>{text(lt('Document Uploaded', 'מסמך הועלה'))}</strong>
         <StatusPill tone="success" label={text(lt('Complete', 'הושלם'))} />
       </div>
-    </article>
+    </button>
 
-    <article className="progress-card progress-card--tight">
+    <button
+  type="button"
+  className="progress-card progress-card--tight"
+  onClick={() => setSelectedPipelineStep('sections')}
+>
       <div className="progress-card__header">
         <strong>{text(lt('Sections Extracted', 'חלקים חולצו'))}</strong>
         <StatusPill tone="success" label={text(lt('Complete', 'הושלם'))} />
       </div>
-    </article>
+    </button>
 
-    <article className="progress-card progress-card--tight">
+    <button
+  type="button"
+  className="progress-card progress-card--tight"
+  onClick={() => {
+  setSelectedPipelineStep('criteria');
+
+  document
+    .getElementById('criteria-scores')
+    ?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+}}
+>
       <div className="progress-card__header">
         <strong>{text(lt('Criteria Evaluated', 'קריטריונים הוערכו'))}</strong>
         <StatusPill tone="success" label={text(lt('Complete', 'הושלם'))} />
       </div>
-    </article>
+    </button>
 
-    <article className="progress-card progress-card--tight">
+    <button
+  type="button"
+  className="progress-card progress-card--tight"
+  onClick={() => {
+    setSelectedPipelineStep('recommendation');
+    setShowAiReview(true);
+  }}
+>
       <div className="progress-card__header">
         <strong>{text(lt('Recommendation Generated', 'המלצה הופקה'))}</strong>
         <StatusPill tone="success" label={text(lt('Complete', 'הושלם'))} />
       </div>
-    </article>
+    </button>
   </div>
 </WindowPanel>
 <WindowPanel
@@ -669,6 +703,58 @@ ${text(selectedProposal.recommendation ?? data.recommendation)}
       )}
     </p>
   </div>
+  {selectedPipelineStep && (
+  <div
+    className="callout-box"
+    style={{ marginTop: '1rem' }}
+  >
+    <span className="eyebrow">
+      Pipeline Details
+    </span>
+
+    {selectedPipelineStep === 'upload' && (
+      <p>
+        The proposal document was uploaded and
+        validated successfully. Metadata and
+        file structure were checked before
+        analysis began.
+      </p>
+    )}
+
+    {selectedPipelineStep === 'sections' && (
+      <div>
+        <p>
+          AI extracted the following sections:
+        </p>
+
+        <ul className="rail-list">
+          <li>Introduction</li>
+          <li>Methodology</li>
+          <li>Expected Outcomes</li>
+          <li>Risk Assessment</li>
+          <li>Budget</li>
+        </ul>
+      </div>
+    )}
+
+    {selectedPipelineStep === 'criteria' && (
+      <p>
+        The AI evaluated all scoring criteria
+        including feasibility, innovation,
+        readiness and public impact before
+        generating a final score.
+      </p>
+    )}
+
+    {selectedPipelineStep === 'recommendation' && (
+      <p>
+        The AI generated a recommendation
+        based on extracted content,
+        evaluation scores and risk analysis.
+      </p>
+    )}
+  </div>
+)}
 </WindowPanel>
 <WindowPanel
   className="page-grid__span-1"
