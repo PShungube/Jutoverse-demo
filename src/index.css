@@ -1247,404 +1247,58 @@ input:focus-visible,
     transform: translateX(100%);
   }
 }
-
-
-/* =========================================
-OVERVIEW PAGE PROFESSIONAL UPGRADE
-========================================= */
-
-.page-grid--overview {
-display: grid;
-grid-template-columns: 1.3fr 1fr;
-gap: 20px;
-align-items: start;
-}
-
-/* AI Reasoning Panel spans full width */
-.page-grid--overview > .window-panel:nth-child(2) {
-grid-column: 1 / -1;
-}
-
-/* Clickable alerts */
-.signal-row {
-cursor: pointer;
-transition: all 0.25s ease;
-}
-
-.signal-row:hover {
-border-color: var(--primary);
-background: rgba(0, 213, 255, 0.08);
-transform: translateY(-2px);
-}
-
-/* AI Reasoning Cards */
-.reasoning-grid {
-display: grid;
-grid-template-columns: repeat(2, 1fr);
-gap: 14px;
-}
-
-.reasoning-box {
-padding: 16px;
-border-radius: 18px;
-border: 1px solid var(--border);
-background: rgba(255, 255, 255, 0.03);
-}
-
-.reasoning-box h4 {
-margin-top: 0;
-margin-bottom: 8px;
-color: var(--heading);
-}
-
-.reasoning-box p,
-.reasoning-box li {
-color: var(--muted);
-}
-
-.reasoning-box ul {
-margin: 0;
-padding-left: 18px;
-}
-
-/* AI panel styling */
-.window-panel--info {
-box-shadow:
-0 0 0 1px rgba(56, 189, 248, 0.15),
-0 18px 50px rgba(56, 189, 248, 0.12);
-}
-
-/* Better metric cards */
-.metric-card {
-min-height: 150px;
-}
-
-/* Better workstream cards */
-.progress-card {
-transition: all 0.25s ease;
-}
-
-.progress-card:hover {
-transform: translateY(-3px);
-}
-
-/* Close button styling */
-.reasoning-close-btn {
-background: var(--primary);
-color: #001018;
-border: none;
-border-radius: 10px;
-padding: 10px 16px;
-font-weight: 600;
-margin-top: 10px;
-}
-
-.reasoning-close-btn:hover {
-opacity: 0.9;
-}
-
-/* Responsive layout */
-@media (max-width: 1100px) {
-.page-grid--overview {
-grid-template-columns: 1fr;
-}
-
-.reasoning-grid {
-grid-template-columns: 1fr;
-}
-
-.page-grid--overview > .window-panel:nth-child(2) {
-grid-column: auto;
-}
-}
-
-/* ===================================
-   AI REASONING PANEL
-=================================== */
-
-.reasoning-box {
-  padding: 16px;
-  border-radius: 18px;
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,0.03);
-}
-
-.reasoning-box h4 {
-  margin-top: 0;
-  margin-bottom: 12px;
-  color: var(--heading);
-}
-
-.confidence-panel {
+.transcription-card {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1rem;
 }
 
-.confidence-header {
+.transcription-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
-.confidence-header strong {
-  color: var(--success);
-  font-size: 1.1rem;
+.transcription-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 120px;
 }
 
-.confidence-bar {
-  height: 10px;
+.transcription-output {
+   min-height: 140px;
+  padding: 1rem;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.transcription-meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.transcript-message {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.transcript-message p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.transcript-placeholder {
+  opacity: 0.7;
+}
+
+.language-badge {
+  padding: 0.25rem 0.75rem;
   border-radius: 999px;
-  overflow: hidden;
-  background: rgba(255,255,255,0.08);
-}
-
-.confidence-bar span {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(
-    90deg,
-    var(--success),
-    var(--primary)
-  );
-}
-
-
-/* =========================================================
-   DASHBOARD LAYOUT FIX (OVERVIEW + SERVICE OPS)
-   ========================================================= */
-
-/* -----------------------------
-   BASE GRID RESET BEHAVIOUR
------------------------------- */
-.page-grid {
-  display: grid;
-  gap: 18px;
-  align-items: start;
-}
-
-/* =========================================================
-   OVERVIEW PAGE LAYOUT (EXECUTIVE DASHBOARD STYLE)
-========================================================= */
-.page-grid--overview {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-/* Make first section (signals/mission) feel wider */
-.page-grid--overview > .window-panel:first-child {
-  grid-column: span 3;
-}
-
-/* Metrics always full width row feel */
-.metric-grid {
-  margin-bottom: 6px;
-}
-
-/* Make overview panels feel more balanced */
-.page-grid--overview > .window-panel {
-  min-height: 260px;
-}
-
-/* =========================================================
-   SERVICE OPERATIONS LAYOUT (CONTROL CENTER STYLE)
-========================================================= */
-.page-grid--operations {
-  grid-template-columns: 1.7fr 1fr;
-}
-
-/* LEFT COLUMN (interaction list) */
-.page-grid--operations > .window-panel:first-child {
-  grid-column: 1 / 2;
-}
-
-/* RIGHT COLUMN (AI / detail panels) */
-.page-grid--operations > .window-panel:nth-child(2) {
-  grid-column: 2 / 3;
-  position: sticky;
-  top: 20px;
-  max-height: calc(100vh - 40px);
-  overflow: auto;
-}
-
-/* Everything below spans full width */
-.page-grid--operations > .window-panel:nth-child(n + 3) {
-  grid-column: 1 / -1;
-}
-
-/* =========================================================
-   MAKE PANELS FEEL MORE PROFESSIONAL
-========================================================= */
-.window-panel {
-  transition: transform 180ms ease, box-shadow 180ms ease;
-}
-
-.window-panel:hover {
-  transform: translateY(-3px);
-}
-
-/* Improve spacing inside AI reasoning panels */
-.reasoning-box {
-  margin-top: 12px;
-}
-
-/* =========================================================
-   RESPONSIVE FIXES
-========================================================= */
-@media (max-width: 1100px) {
-  .page-grid--overview {
-    grid-template-columns: 1fr;
-  }
-
-  .page-grid--overview > .window-panel:first-child {
-    grid-column: auto;
-  }
-
-  .page-grid--operations {
-    grid-template-columns: 1fr;
-  }
-
-  .page-grid--operations > .window-panel {
-    grid-column: auto !important;
-    position: relative;
-    top: auto;
-    max-height: none;
-  }
-}
-
-/* =========================================================
-   FINAL DASHBOARD LAYOUT SYSTEM (CLEAN + EVEN SPACING)
-========================================================= */
-
-/* Global page container spacing consistency */
-.page-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-/* FIXED GRID FOUNDATION (replaces inconsistent layouts) */
-.page-grid {
-  display: grid;
-  gap: 18px;
-  align-items: start;
-  grid-auto-rows: min-content;
-}
-
-/* =========================================================
-   OVERVIEW PAGE (balanced executive layout)
-========================================================= */
-.page-grid--overview {
-  grid-template-columns: repeat(12, 1fr);
-}
-
-/* Hero banner */
-.page-grid--overview > .feature-banner {
-  grid-column: 1 / -1;
-}
-
-/* Metrics row */
-.page-grid--overview > .metric-grid {
-  grid-column: 1 / -1;
-}
-
-/* Each panel gets equal spacing blocks */
-.page-grid--overview > .window-panel {
-  grid-column: span 6;
-}
-
-/* Full width panels (optional emphasis sections) */
-.page-grid--overview > .window-panel:nth-child(1),
-.page-grid--overview > .window-panel:nth-last-child(1) {
-  grid-column: 1 / -1;
-}
-
-/* =========================================================
-   SERVICE OPERATIONS (REAL CONTROL CENTER LAYOUT)
-========================================================= */
-.page-grid--operations {
-  grid-template-columns: 1.4fr 1fr;
-  gap: 20px;
-}
-
-/* LEFT COLUMN: interaction monitor */
-.page-grid--operations > .window-panel:first-child {
-  grid-column: 1;
-}
-
-/* RIGHT COLUMN: AI reasoning (sticky inspector) */
-.page-grid--operations > .window-panel:nth-child(2) {
-  grid-column: 2;
-  position: sticky;
-  top: 20px;
-  height: fit-content;
-  max-height: calc(100vh - 40px);
-  overflow: auto;
-}
-
-/* FULL WIDTH LOWER PANELS */
-.page-grid--operations > .window-panel:nth-child(n + 3) {
-  grid-column: 1 / -1;
-}
-
-/* =========================================================
-   FIX UNEVEN CARD HEIGHT / SPACING ISSUES
-========================================================= */
-.window-panel {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* consistent internal spacing */
-.window-panel__body {
-  flex: 1;
-}
-
-/* smoother spacing rhythm inside panels */
-.stack-list,
-.record-list,
-.capability-grid,
-.timeline-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* =========================================================
-   VISUAL ALIGNMENT FIXES
-========================================================= */
-.metric-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-
-/* ensures metric cards align evenly */
-.metric-card {
-  height: 100%;
-}
-
-/* =========================================================
-   RESPONSIVE FIX (CRITICAL)
-========================================================= */
-@media (max-width: 1100px) {
-  .page-grid--overview {
-    grid-template-columns: 1fr;
-  }
-
-  .page-grid--overview > .window-panel {
-    grid-column: auto;
-  }
-
-  .page-grid--operations {
-    grid-template-columns: 1fr;
-  }
-
-  .page-grid--operations > .window-panel {
-    grid-column: auto !important;
-    position: relative;
-    top: auto;
-    max-height: none;
-  }
+  background: rgba(0,255,255,0.12);
 }

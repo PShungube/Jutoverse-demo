@@ -1,3 +1,4 @@
+import { TranscriptionPanel } from './components/TranscriptionPanel';
 import { useState } from 'react';
 import { getAssistantResponse } from '../../api/adapters/assistantAdapter';
 import { GroundedAnswerCard } from './components/GroundedAnswerCard';
@@ -12,6 +13,7 @@ import { WindowPanel } from '../../components/common/WindowPanel';
 import { useMockResource } from '../../hooks/useMockResource';
 import { useI18n } from '../../i18n/I18nProvider';
 import { ConversationContext } from './components/ConversationContext';
+import { TranslationPanel } from './components/TranslationPanel';
 
 export function RepresentativeAssistantPage() {
   const { data, loading } = useMockResource(demoAdapter.getAssistantSnapshot);
@@ -27,6 +29,9 @@ const [assistantResponse, setAssistantResponse] =
     confidence: number;
     citations: string[];
   } | null>(null);
+
+  const [liveTranscript, setLiveTranscript] =
+  useState('');
 
 const handleQuestionSubmit = async (
   question: string
@@ -98,6 +103,13 @@ const handleQuestionSubmit = async (
               <FeedbackControls />
             </div>
             <QueryComposer onSubmit={handleQuestionSubmit} />
+
+            <TranscriptionPanel
+  onTranscriptChange={setLiveTranscript}
+/>
+            <TranslationPanel
+  transcript={liveTranscript}
+/>
 
             {assistantResponse && (
   <GroundedAnswerCard
