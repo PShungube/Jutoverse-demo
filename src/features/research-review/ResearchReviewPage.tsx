@@ -20,6 +20,12 @@ export function ResearchReviewPage() {
   const [query, setQuery] = useState('');
   const [selectedProposalId, setSelectedProposalId] = useState('PR-203');
   const [showAiReview, setShowAiReview] = useState(false);
+  const [pipelineStatus, setPipelineStatus] = useState({
+  uploaded: false,
+  extracted: false,
+  evaluated: false,
+  recommendation: false,
+});
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [committeeDecision, setCommitteeDecision] = useState<
   'approved' | 'changes' | 'rejected' | null
@@ -83,6 +89,14 @@ useEffect(() => {
   setCommitteeDecision(null);
   setShowAiReview(false);
   setSelectedHistoryEvent(null);
+
+  setPipelineStatus({
+    uploaded: false,
+    extracted: false,
+    evaluated: false,
+    recommendation: false,
+  });
+
 }, [selectedProposalId]);
   const deferredQuery = useDeferredValue(query);
 
@@ -255,8 +269,36 @@ useEffect(() => {
       const file = e.target.files?.[0];
 
       if (file) {
-        setUploadedFile(file);
-      }
+  setUploadedFile(file);
+
+  setPipelineStatus({
+    uploaded: true,
+    extracted: false,
+    evaluated: false,
+    recommendation: false,
+  });
+
+  setTimeout(() => {
+    setPipelineStatus((prev) => ({
+      ...prev,
+      extracted: true,
+    }));
+  }, 1000);
+
+  setTimeout(() => {
+    setPipelineStatus((prev) => ({
+      ...prev,
+      evaluated: true,
+    }));
+  }, 2000);
+
+  setTimeout(() => {
+    setPipelineStatus((prev) => ({
+      ...prev,
+      recommendation: true,
+    }));
+  }, 3000);
+}
     }}
   />
 </label>
@@ -550,7 +592,10 @@ ${text(selectedProposal.recommendation ?? data.recommendation)}
 >
       <div className="progress-card__header">
         <strong>{text(lt('Document Uploaded', 'מסמך הועלה'))}</strong>
-        <StatusPill tone="success" label={text(lt('Complete', 'הושלם'))} />
+        <StatusPill
+  tone={pipelineStatus.uploaded ? 'success' : 'warning'}
+  label={pipelineStatus.uploaded ? 'Complete' : 'Pending'}
+/>
       </div>
     </button>
 
@@ -561,7 +606,10 @@ ${text(selectedProposal.recommendation ?? data.recommendation)}
 >
       <div className="progress-card__header">
         <strong>{text(lt('Sections Extracted', 'חלקים חולצו'))}</strong>
-        <StatusPill tone="success" label={text(lt('Complete', 'הושלם'))} />
+        <StatusPill
+  tone={pipelineStatus.extracted ? 'success' : 'warning'}
+  label={pipelineStatus.extracted ? 'Complete' : 'Pending'}
+/>
       </div>
     </button>
 
@@ -581,7 +629,10 @@ ${text(selectedProposal.recommendation ?? data.recommendation)}
 >
       <div className="progress-card__header">
         <strong>{text(lt('Criteria Evaluated', 'קריטריונים הוערכו'))}</strong>
-        <StatusPill tone="success" label={text(lt('Complete', 'הושלם'))} />
+        <StatusPill
+  tone={pipelineStatus.evaluated ? 'success' : 'warning'}
+  label={pipelineStatus.evaluated ? 'Complete' : 'Pending'}
+/>
       </div>
     </button>
 
@@ -595,7 +646,10 @@ ${text(selectedProposal.recommendation ?? data.recommendation)}
 >
       <div className="progress-card__header">
         <strong>{text(lt('Recommendation Generated', 'המלצה הופקה'))}</strong>
-        <StatusPill tone="success" label={text(lt('Complete', 'הושלם'))} />
+        <StatusPill
+  tone={pipelineStatus.recommendation ? 'success' : 'warning'}
+  label={pipelineStatus.recommendation ? 'Complete' : 'Pending'}
+/>
       </div>
     </button>
   </div>
