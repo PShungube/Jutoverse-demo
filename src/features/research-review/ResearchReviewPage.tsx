@@ -1,6 +1,13 @@
-import { startTransition, useDeferredValue, useMemo, useState } from 'react';
+import {
+  startTransition,
+  useDeferredValue,
+  useMemo,
+  useState,
+  useEffect,
+  type Key,
+} from 'react';
 import { demoAdapter } from '../../api/adapters/demoAdapter';
-import { lt } from '../../api/contracts';
+import { lt, type LocalizedText } from '../../api/contracts';
 import { LoadingDeck } from '../../components/common/LoadingDeck';
 import { MetricCard } from '../../components/common/MetricCard';
 import { StatusPill } from '../../components/common/StatusPill';
@@ -13,6 +20,18 @@ export function ResearchReviewPage() {
   const { text } = useI18n();
   const [query, setQuery] = useState('');
   const [selectedProposalId, setSelectedProposalId] = useState('PR-203');
+  const [showAiReview, setShowAiReview] = useState(false);
+  const [committeeDecision, setCommitteeDecision] = useState<
+  'approved' | 'changes' | 'rejected' | null
+>(null);
+const [selectedHistoryEvent, setSelectedHistoryEvent] = useState<
+  string | null
+>(null);
+useEffect(() => {
+  setCommitteeDecision(null);
+  setShowAiReview(false);
+  setSelectedHistoryEvent(null);
+}, [selectedProposalId]);
   const deferredQuery = useDeferredValue(query);
 
   const filteredProposals = useMemo(() => {
@@ -80,7 +99,139 @@ export function ResearchReviewPage() {
               <span className="tag-chip tag-chip--muted">{text(selectedProposal.statusLabel)}</span>
               <span className="tag-chip tag-chip--muted">{selectedProposal.readiness}</span>
             </div>
-            <p>{text(data.recommendation)}</p>
+            <p>{text(selectedProposal.recommendation ?? data.recommendation)}</p>
+
+
+<div
+  style={{
+    marginTop: '1rem',
+    display: 'flex',
+    gap: '0.75rem',
+  }}
+>
+  <button
+    type="button"
+    className="tag-chip"
+    onClick={() => setShowAiReview(!showAiReview)}
+  >
+    Generate AI Review
+  </button>
+
+  <button
+    type="button"
+    className="tag-chip"
+    onClick={() => alert(`Exporting ${selectedProposal.id} report`)}
+  >
+    Export Report
+  </button>
+</div>
+
+{showAiReview && (
+  <div className="callout-box" style={{ marginTop: '1rem' }}>
+    <span className="eyebrow">AI Generated Summary</span>
+
+    <p>
+      Proposal {selectedProposal.id} received a score of{' '}
+      {selectedProposal.score}/100 based on evaluation criteria,
+      implementation readiness and expected public impact.
+    </p>
+
+    <ul className="rail-list">
+      <li>
+        Recommendation:{' '}
+        {text(selectedProposal.recommendation ?? data.recommendation)}
+      </li>
+      <li>Readiness: {selectedProposal.readiness}</li>
+      <li>Status: {text(selectedProposal.statusLabel)}</li>
+      <li>Overall Score: {selectedProposal.score}</li>
+    </ul>
+    <div
+  style={{
+    marginTop: '1rem',
+    padding: '0.75rem',
+    border: '1px solid rgba(255,255,255,0.15)',
+    borderRadius: '10px',
+  }}
+>
+  <span className="eyebrow">AI Confidence Score</span>
+
+  <div
+    className="progress-bar"
+    style={{ marginTop: '0.5rem' }}
+  >
+    <span style={{ width: '95%' }} />
+  </div>
+
+  <p style={{ marginTop: '0.5rem' }}>
+    95% confidence based on document completeness,
+    evaluation consistency and historical proposal patterns.
+  </p>
+</div>
+  </div>
+)}
+
+<div style={{ marginTop: '1rem' }}>
+  <span className="eyebrow">Committee Decision</span>
+
+  <div
+    style={{
+      display: 'flex',
+      gap: '0.75rem',
+      marginTop: '0.5rem',
+      flexWrap: 'wrap',
+    }}
+  >
+    <button
+      type="button"
+      className="tag-chip"
+      onClick={() => setCommitteeDecision('approved')}
+    >
+      Approve
+    </button>
+
+    <button
+      type="button"
+      className="tag-chip"
+      onClick={() => setCommitteeDecision('changes')}
+    >
+      Request Changes
+    </button>
+
+    <button
+      type="button"
+      className="tag-chip"
+      onClick={() => setCommitteeDecision('rejected')}
+    >
+      Reject
+    </button>
+  </div>
+</div>
+
+{committeeDecision && (
+  <div className="callout-box" style={{ marginTop: '1rem' }}>
+    <span className="eyebrow">Committee Outcome</span>
+
+    {committeeDecision === 'approved' && (
+      <p>
+        Proposal {selectedProposal.id} has been approved for the next review
+        phase.
+      </p>
+    )}
+
+    {committeeDecision === 'changes' && (
+      <p>
+        Proposal {selectedProposal.id} requires revisions before proceeding.
+      </p>
+    )}
+
+    {committeeDecision === 'rejected' && (
+      <p>
+        Proposal {selectedProposal.id} has been rejected based on committee
+        evaluation.
+      </p>
+    )}
+  </div>
+)}
             <div className="callout-box">
               <span className="eyebrow">{text(lt('Committee prompts', 'שאלות לוועדה'))}</span>
               <ul className="rail-list">
@@ -93,7 +244,7 @@ export function ResearchReviewPage() {
 
         <WindowPanel title={lt('Criteria scores', 'ציוני קריטריונים')} subtitle={lt('The review surface shows explicit rationale, not opaque scoring.', 'משטח הסקירה מציג נימוקים מפורשים ולא דירוג אטום.')} eyebrow={lt('Evaluation', 'הערכה')} accent="info">
           <div className="stack-list">
-            {data.criteria.map((criterion) => (
+            {(selectedProposal.criteria ?? data.criteria).map((criterion) => (
               <article key={criterion.id} className="progress-card progress-card--tight">
                 <div className="progress-card__header">
                   <strong>{text(criterion.label)}</strong>
@@ -113,7 +264,7 @@ export function ResearchReviewPage() {
             <div>
               <h3>{text(lt('Strengths', 'חוזקות'))}</h3>
               <ul className="rail-list">
-                {data.strengths.map((item, index) => (
+                {(selectedProposal.strengths ?? data.strengths).map((item: string | LocalizedText, index: Key | null | undefined) => (
                   <li key={index}>{text(item)}</li>
                 ))}
               </ul>
@@ -121,7 +272,7 @@ export function ResearchReviewPage() {
             <div>
               <h3>{text(lt('Risks', 'סיכונים'))}</h3>
               <ul className="rail-list">
-                {data.risks.map((item, index) => (
+                {(selectedProposal.risks ?? data.risks).map((item: string | LocalizedText, index: Key | null | undefined) => (
                   <li key={index}>{text(item)}</li>
                 ))}
               </ul>
@@ -131,14 +282,285 @@ export function ResearchReviewPage() {
 
         <WindowPanel title={lt('Audit trail', 'שביל ביקורת')} subtitle={lt('Every recommendation remains explainable and review-safe.', 'כל המלצה נשארת ברת הסבר ובטוחה לסקירה.')} eyebrow={lt('Traceability', 'עקיבות')} accent="accent">
           <div className="timeline-list">
-            {data.auditTrail.map((item) => (
+            {(selectedProposal.auditTrail ?? data.auditTrail).map((item: { id: Key | null | undefined; status: string; label: string | LocalizedText; detail: string | LocalizedText; }) => (
               <article key={item.id} className="timeline-item">
-                <StatusPill tone={item.status} label={text(item.label)} />
+                <StatusPill tone={item.status as any} label={text(item.label)} />
                 <p>{text(item.detail)}</p>
               </article>
             ))}
           </div>
         </WindowPanel>
+
+      <WindowPanel
+  title={lt('Analysis Pipeline', 'צינור ניתוח')}
+  subtitle={lt(
+    'Shows how the AI processed the proposal.',
+    'מציג כיצד הבינה המלאכותית עיבדה את ההצעה.'
+  )}
+  eyebrow={lt('AI Processing', 'עיבוד AI')}
+  accent="info"
+>
+  <div className="stack-list">
+    <article className="progress-card progress-card--tight">
+      <div className="progress-card__header">
+        <strong>{text(lt('Document Uploaded', 'מסמך הועלה'))}</strong>
+        <StatusPill tone="success" label={text(lt('Complete', 'הושלם'))} />
+      </div>
+    </article>
+
+    <article className="progress-card progress-card--tight">
+      <div className="progress-card__header">
+        <strong>{text(lt('Sections Extracted', 'חלקים חולצו'))}</strong>
+        <StatusPill tone="success" label={text(lt('Complete', 'הושלם'))} />
+      </div>
+    </article>
+
+    <article className="progress-card progress-card--tight">
+      <div className="progress-card__header">
+        <strong>{text(lt('Criteria Evaluated', 'קריטריונים הוערכו'))}</strong>
+        <StatusPill tone="success" label={text(lt('Complete', 'הושלם'))} />
+      </div>
+    </article>
+
+    <article className="progress-card progress-card--tight">
+      <div className="progress-card__header">
+        <strong>{text(lt('Recommendation Generated', 'המלצה הופקה'))}</strong>
+        <StatusPill tone="success" label={text(lt('Complete', 'הושלם'))} />
+      </div>
+    </article>
+  </div>
+</WindowPanel>
+<WindowPanel
+  title={lt('Proposal Comparison', 'השוואת הצעות')}
+  subtitle={lt(
+    'Quick comparison across all submitted proposals.',
+    'השוואה מהירה בין כל ההצעות.'
+  )}
+  eyebrow={lt('Committee Insights', 'תובנות ועדה')}
+  accent="success"
+>
+  <div className="stack-list">
+    {data.proposals
+      .slice()
+      .sort((a, b) => b.score - a.score)
+      .map((proposal) => (
+        <article
+          key={proposal.id}
+          className="progress-card progress-card--tight"
+        >
+          <div className="progress-card__header">
+            <strong>{proposal.id}</strong>
+
+            <StatusPill
+              tone={
+                proposal.score >= 88
+                  ? 'success'
+                  : proposal.score >= 80
+                  ? 'accent'
+                  : 'warning'
+              }
+              label={`${proposal.score}`}
+            />
+          </div>
+
+          <div className="progress-card__footer">
+            <strong>{text(proposal.title)}</strong>
+            <br />
+            {text(proposal.statusLabel)}
+          </div>
+        </article>
+      ))}
+  </div>
+
+  <div className="callout-box" style={{ marginTop: '1rem' }}>
+    <span className="eyebrow">
+      {text(
+        lt(
+          'AI Ranking Insight',
+          'תובנת דירוג מבוססת AI'
+        )
+      )}
+    </span>
+
+    <p>
+      {text(
+        lt(
+          'PR-203 currently ranks highest based on evaluation score, readiness and projected public impact.',
+          'PR-203 מדורגת ראשונה בהתבסס על ציון ההערכה, מוכנות והשפעה ציבורית צפויה.'
+        )
+      )}
+    </p>
+  </div>
+</WindowPanel>
+<WindowPanel
+  className="page-grid__span-1"
+  title={lt('Review Statistics', 'סטטיסטיקות סקירה')}
+  subtitle={lt(
+    'Live committee overview.',
+    'סקירת נתוני הוועדה בזמן אמת.'
+  )}
+  eyebrow={lt('Dashboard', 'לוח מחוונים')}
+  accent="info"
+>
+  <div className="stack-list">
+
+    <article className="progress-card progress-card--tight">
+      <div className="progress-card__header">
+        <strong>Approved</strong>
+        <span>18</span>
+      </div>
+    </article>
+
+    <article className="progress-card progress-card--tight">
+      <div className="progress-card__header">
+        <strong>Pending</strong>
+        <span>6</span>
+      </div>
+    </article>
+
+    <article className="progress-card progress-card--tight">
+      <div className="progress-card__header">
+        <strong>Rejected</strong>
+        <span>3</span>
+      </div>
+    </article>
+
+  </div>
+
+  <div className="callout-box" style={{ marginTop: '1rem' }}>
+    <span className="eyebrow">AI Insight</span>
+
+    <p>
+      Proposal approval rate is currently
+      <strong> 67% </strong>
+      with an average AI recommendation score of
+      <strong> 88/100</strong>.
+    </p>
+  </div>
+
+</WindowPanel>
+<WindowPanel
+  className="page-grid__span-1"
+  title={lt('Review History', 'היסטוריית סקירה')}
+  subtitle={lt(
+    'Tracks every review action for transparency.',
+    'עוקב אחר כל פעולת סקירה לצורך שקיפות.'
+  )}
+  eyebrow={lt('Activity Log', 'יומן פעילות')}
+  accent="accent"
+>
+  <div className="timeline-list">
+
+    <button
+      type="button"
+      className="timeline-item"
+      onClick={() => setSelectedHistoryEvent('submitted')}
+    >
+      <StatusPill
+        tone="success"
+        label={text(lt('Completed', 'הושלם'))}
+      />
+      <p>
+        Proposal {selectedProposal.id} submitted for committee review.
+      </p>
+    </button>
+
+    <button
+      type="button"
+      className="timeline-item"
+      onClick={() => setSelectedHistoryEvent('analysis')}
+    >
+      <StatusPill
+        tone="info"
+        label={text(lt('AI Analysis', 'ניתוח AI'))}
+      />
+      <p>
+        AI extracted proposal sections and generated evaluation scores.
+      </p>
+    </button>
+
+    <button
+      type="button"
+      className="timeline-item"
+      onClick={() => setSelectedHistoryEvent('viewed')}
+    >
+      <StatusPill
+        tone="accent"
+        label={text(lt('Committee Viewed', 'נצפה על ידי הוועדה'))}
+      />
+      <p>
+        Committee members opened and reviewed the proposal.
+      </p>
+    </button>
+
+    {committeeDecision && (
+      <button
+        type="button"
+        className="timeline-item"
+        onClick={() => setSelectedHistoryEvent('decision')}
+      >
+        <StatusPill
+          tone="success"
+          label={text(lt('Decision Recorded', 'החלטה נשמרה'))}
+        />
+
+        <p>
+          Committee decision:
+          {' '}
+          {committeeDecision === 'approved'
+            ? 'Approved'
+            : committeeDecision === 'changes'
+            ? 'Changes Requested'
+            : 'Rejected'}
+        </p>
+      </button>
+    )}
+
+  </div>
+
+  {selectedHistoryEvent && (
+    <div
+      className="callout-box"
+      style={{ marginTop: '1rem' }}
+    >
+      <span className="eyebrow">
+        Event Details
+      </span>
+
+      {selectedHistoryEvent === 'submitted' && (
+        <p>
+          Proposal {selectedProposal.id} was uploaded and
+          entered into the review workflow. Initial validation
+          checks were completed successfully.
+        </p>
+      )}
+
+      {selectedHistoryEvent === 'analysis' && (
+        <p>
+          The AI extracted document sections, evaluated
+          criteria, generated risk assessments and calculated
+          the overall recommendation score.
+        </p>
+      )}
+
+      {selectedHistoryEvent === 'viewed' && (
+        <p>
+          Committee members accessed the proposal,
+          reviewed supporting documents and examined
+          AI-generated recommendations.
+        </p>
+      )}
+
+      {selectedHistoryEvent === 'decision' && (
+        <p>
+          The committee decision was recorded and
+          added to the audit trail.
+        </p>
+      )}
+    </div>
+  )}
+</WindowPanel>
+
       </div>
     </div>
   );
