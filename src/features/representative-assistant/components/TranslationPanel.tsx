@@ -24,36 +24,97 @@ export function TranslationPanel({
 }, [transcript]);
 
   const translateText = () => {
-    if (!sourceText.trim()) {
-      return 'Translation will appear here...';
-    }
+  if (!sourceText.trim()) {
+    return 'Translation will appear here...';
+  }
 
-    const dictionary: Record<string, Record<string, string>> = {
-      hello: {
-        Arabic: 'مرحبا',
-        Russian: 'Привет',
-        Amharic: 'ሰላም',
-      },
-      thanks: {
-        Arabic: 'شكرا',
-        Russian: 'Спасибо',
-        Amharic: 'አመሰግናለሁ',
-      },
-      welcome: {
-        Arabic: 'أهلا بك',
-        Russian: 'Добро пожаловать',
-        Amharic: 'እንኳን ደህና መጡ',
-      },
-    };
-
-    const key =
-      sourceText.toLowerCase().trim();
-
-    return (
-      dictionary[key]?.[targetLanguage] ||
-      `[${targetLanguage}] ${sourceText}`
-    );
+  const dictionary: Record<
+    string,
+    Record<string, string>
+  > = {
+    hello: {
+      Arabic: 'مرحبا',
+      Russian: 'Привет',
+      Amharic: 'ሰላም',
+    },
+    thanks: {
+      Arabic: 'شكرا',
+      Russian: 'Спасибо',
+      Amharic: 'አመሰግናለሁ',
+    },
+    welcome: {
+      Arabic: 'أهلا بك',
+      Russian: 'Добро пожаловать',
+      Amharic: 'እንኳን ደህና መጡ',
+    },
   };
+
+  const key =
+    sourceText.toLowerCase().trim();
+
+  return (
+    dictionary[key]?.[targetLanguage] ||
+    `[${targetLanguage}] ${sourceText}`
+  );
+};
+
+const getSuggestions = () => {
+  const text = sourceText.toLowerCase();
+
+  const suggestions: string[] = [];
+
+  if (
+    text.includes('identity') ||
+    text.includes('id')
+  ) {
+    suggestions.push(
+      'Verify citizen identity records'
+    );
+  }
+
+  if (text.includes('passport')) {
+    suggestions.push(
+      'Validate passport information'
+    );
+  }
+
+  if (
+    text.includes('benefit') ||
+    text.includes('grant')
+  ) {
+    suggestions.push(
+      'Review benefits eligibility'
+    );
+  }
+
+  if (
+    text.includes('application')
+  ) {
+    suggestions.push(
+      'Open application workflow'
+    );
+  }
+
+  if (
+    text.includes('complaint')
+  ) {
+    suggestions.push(
+      'Escalate complaint for review'
+    );
+  }
+
+  if (suggestions.length === 0) {
+    suggestions.push(
+      'Review citizen request'
+    );
+
+    suggestions.push(
+      'Confirm supporting documents'
+    );
+  }
+
+  return suggestions;
+};
 
   return (
     <div className="capability-card transcription-card">
@@ -149,18 +210,22 @@ export function TranslationPanel({
   }}
 >
   <strong>AI Suggested Actions</strong>
-
   <ul
-    style={{
-      marginTop: '0.5rem',
-      paddingLeft: '1.25rem',
-    }}
-  >
-    <li>Verify citizen identity</li>
-    <li>Review relevant service records</li>
-    <li>Explain next processing steps</li>
-    <li>Escalate if confidence is low</li>
-  </ul>
+  style={{
+    marginTop: '0.5rem',
+    paddingLeft: '1.25rem',
+  }}
+>
+  {getSuggestions().map(
+    (suggestion: string, index: number) => (
+      <li key={index}>
+        {suggestion}
+      </li>
+    )
+  )}
+</ul>
+
+  
 </div>
   </div>
 </div>

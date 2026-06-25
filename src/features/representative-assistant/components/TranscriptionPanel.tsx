@@ -17,6 +17,7 @@ export function TranscriptionPanel({
 }: TranscriptionPanelProps) {
   const [listening, setListening] = useState(false);
   const [transcript, setTranscript] = useState('');
+  const [history, setHistory] = useState<string[]>([]);
   const [language, setLanguage] = useState('English');
   const [selectedLanguage, setSelectedLanguage] =
   useState('en-US');
@@ -44,6 +45,18 @@ export function TranscriptionPanel({
       }
 
       setTranscript(currentTranscript);
+      if (
+  currentTranscript.trim() &&
+  currentTranscript !== transcript
+) {
+  const timestamp =
+    new Date().toLocaleTimeString();
+
+  setHistory((prev) => [
+    ...prev,
+    `${timestamp}: ${currentTranscript}`,
+  ]);
+}
       onTranscriptChange?.(currentTranscript);
 
       if (/[а-яА-Я]/.test(currentTranscript)) {
@@ -129,8 +142,24 @@ export function TranscriptionPanel({
     {/* Status row */}
     <div className="transcription-meta">
       <div>
-        <strong>Language:</strong> {language}
-      </div>
+  <strong>Detected:</strong>{' '}
+
+  {language === 'English' && (
+    <span>🟢 English Detected</span>
+  )}
+
+  {language === 'Arabic' && (
+    <span>🟠 Arabic Detected</span>
+  )}
+
+  {language === 'Russian' && (
+    <span>🔵 Russian Detected</span>
+  )}
+
+  {language === 'Amharic' && (
+    <span>🟣 Amharic Detected</span>
+  )}
+</div>
 
       <div>
         <strong>Status:</strong> {listening ? 'Listening' : 'Idle'}
@@ -151,7 +180,32 @@ export function TranscriptionPanel({
   )}
 </div>
 
-    {/* Footer */}
+   <div
+  style={{
+    marginTop: '1rem',
+    padding: '1rem',
+    borderRadius: '12px',
+    background: 'rgba(255,255,255,0.04)',
+  }}
+>
+  <strong>🎙 Conversation History</strong>
+
+  {history.length === 0 ? (
+    <p>No conversation yet.</p>
+  ) : (
+    <ul
+      style={{
+        marginTop: '0.75rem',
+        paddingLeft: '1rem',
+      }}
+    >
+      {history.map((item, index) => (
+        <li key={index}>{item}</li>
+      ))}
+    </ul>
+  )}
+</div>
+   {/* Footer */}
     <div className="transcription-footer">
   <strong>Supported:</strong>
 
