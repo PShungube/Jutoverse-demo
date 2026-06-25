@@ -260,7 +260,14 @@ useEffect(() => {
   <button
     type="button"
     className="tag-chip"
-    onClick={() => setShowAiReview(!showAiReview)}
+    onClick={() => {
+  if (!uploadedFile) {
+    alert('Please upload a document first');
+    return;
+  }
+
+  setShowAiReview(!showAiReview);
+}}
   >
     Generate AI Review
   </button>
@@ -346,6 +353,17 @@ ${text(selectedProposal.recommendation ?? data.recommendation)}
       <li>Readiness: {selectedProposal.readiness}</li>
       <li>Status: {text(selectedProposal.statusLabel)}</li>
       <li>Overall Score: {selectedProposal.score}</li>
+      <li>
+  Extracted Sections:
+  Introduction, Methodology,
+  Findings and Recommendations
+</li>
+
+<li>
+  Key Topics:
+  Public Services, Digital Transformation,
+  Citizen Engagement
+</li>
     </ul>
     <div
   style={{
