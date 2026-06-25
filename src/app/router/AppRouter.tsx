@@ -1,10 +1,11 @@
+
 import { BotMessageSquare, FileSearch, LayoutDashboard, Settings2, ShieldCheck, Waves } from 'lucide-react';
 import type { ComponentType } from 'react';
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { AppShell } from '../../components/shell/AppShell';
 import { lt, type LocalizedText } from '../../api/contracts';
 import { AdministrationPage } from '../../features/administration/AdministrationPage';
-import { CitizenServicesPage } from '../../features/citizen-services/CitizenServicesPage';
+import { CitizenServicesPage } from '../../features/citizen-services/CitizenServicesPage.tsx';
 import { OverviewPage } from '../../features/overview/OverviewPage';
 import { RepresentativeAssistantPage } from '../../features/representative-assistant/RepresentativeAssistantPage';
 import { ResearchReviewPage } from '../../features/research-review/ResearchReviewPage';
