@@ -1,3 +1,4 @@
+import { TranscriptionPanel } from './components/TranscriptionPanel';
 import { useState } from 'react';
 import { getAssistantResponse } from '../../api/adapters/assistantAdapter';
 import { GroundedAnswerCard } from './components/GroundedAnswerCard';
@@ -98,6 +99,8 @@ const handleQuestionSubmit = async (
               <FeedbackControls />
             </div>
             <QueryComposer onSubmit={handleQuestionSubmit} />
+            
+            <TranscriptionPanel />
 
             {assistantResponse && (
   <GroundedAnswerCard
