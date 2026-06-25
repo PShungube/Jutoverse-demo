@@ -8,7 +8,13 @@ declare global {
   }
 }
 
-export function TranscriptionPanel() {
+type TranscriptionPanelProps = {
+  onTranscriptChange?: (text: string) => void;
+};
+
+export function TranscriptionPanel({
+  onTranscriptChange,
+}: TranscriptionPanelProps) {
   const [listening, setListening] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [language, setLanguage] = useState('English');
@@ -38,6 +44,7 @@ export function TranscriptionPanel() {
       }
 
       setTranscript(currentTranscript);
+      onTranscriptChange?.(currentTranscript);
 
       if (/[а-яА-Я]/.test(currentTranscript)) {
   setLanguage('Russian');

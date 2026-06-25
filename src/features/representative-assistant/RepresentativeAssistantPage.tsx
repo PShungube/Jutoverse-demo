@@ -30,6 +30,9 @@ const [assistantResponse, setAssistantResponse] =
     citations: string[];
   } | null>(null);
 
+  const [liveTranscript, setLiveTranscript] =
+  useState('');
+
 const handleQuestionSubmit = async (
   question: string
 ) => {
@@ -101,9 +104,12 @@ const handleQuestionSubmit = async (
             </div>
             <QueryComposer onSubmit={handleQuestionSubmit} />
 
-            <TranscriptionPanel />
-
-            <TranslationPanel />
+            <TranscriptionPanel
+  onTranscriptChange={setLiveTranscript}
+/>
+            <TranslationPanel
+  transcript={liveTranscript}
+/>
 
             {assistantResponse && (
   <GroundedAnswerCard

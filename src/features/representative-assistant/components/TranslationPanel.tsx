@@ -1,6 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export function TranslationPanel() {
+
+type TranslationPanelProps = {
+  transcript?: string;
+};
+
+export function TranslationPanel({
+  transcript,
+}: TranslationPanelProps) {
   const [sourceLanguage, setSourceLanguage] =
     useState('English');
 
@@ -9,6 +16,12 @@ export function TranslationPanel() {
 
   const [sourceText, setSourceText] =
     useState('');
+
+    useEffect(() => {
+  if (transcript) {
+    setSourceText(transcript);
+  }
+}, [transcript]);
 
   const translateText = () => {
     if (!sourceText.trim()) {
@@ -103,47 +116,55 @@ export function TranslationPanel() {
           padding: '0.75rem',
         }}
       />
+<div className="transcription-output">
+  <div className="transcript-message">
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '0.5rem',
+      }}
+    >
+      <strong>Translated Output</strong>
 
-      <div className="transcription-output">
-        <div className="transcript-message">
-          <div
-  style={{
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  }}
->
-  <strong>Translated Output</strong>
+      <span
+        style={{
+          padding: '0.25rem 0.75rem',
+          borderRadius: '999px',
+          fontSize: '0.8rem',
+          fontWeight: 600,
+        }}
+      >
+        Confidence: 96%
+      </span>
+    </div>
 
-  <span
-    style={{
-      fontSize: '0.8rem',
-      padding: '0.25rem 0.5rem',
-      borderRadius: '999px',
-      background: 'var(--surface-secondary)',
-    }}
-  >
-    Confidence: 96%
-  </span>
-</div>
-<div
+    <p>{translateText()}</p>
+    <div
   style={{
     marginTop: '1rem',
+    paddingTop: '1rem',
+    borderTop: '1px solid rgba(255,255,255,0.1)',
   }}
 >
-  <strong>Suggested Response</strong>
+  <strong>AI Suggested Actions</strong>
 
-  <p>
-    Based on the translated request, provide a clear
-    explanation and confirm the next action with the
-    citizen.
-  </p>
+  <ul
+    style={{
+      marginTop: '0.5rem',
+      paddingLeft: '1.25rem',
+    }}
+  >
+    <li>Verify citizen identity</li>
+    <li>Review relevant service records</li>
+    <li>Explain next processing steps</li>
+    <li>Escalate if confidence is low</li>
+  </ul>
 </div>
-
-          <p>{translateText()}</p>
-        </div>
-      </div>
-
+  </div>
+</div>
+      
       <div className="transcription-footer">
         <strong>Supported:</strong>
 
@@ -153,5 +174,5 @@ export function TranslationPanel() {
         <span> Amharic </span>
       </div>
     </div>
-  );
-}
+    );
+    }
