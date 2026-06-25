@@ -9,9 +9,6 @@ import { WindowPanel } from '../../components/common/WindowPanel';
 import { useMockResource } from '../../hooks/useMockResource';
 import { useI18n } from '../../i18n/I18nProvider';
 
-import { SourceHealthCard } from './components/SourceHealthCard';
-import { EnvironmentSummaryCard } from './components/EnvironmentSummaryCard';
-
 import { WorkflowConfiguration } from './components/WorkflowConfiguration';
 import { AuditTable } from './components/AuditTable';
 
@@ -125,8 +122,6 @@ export function AdministrationPage() {
   accent="success"
 >
   <div className="capability-grid">
-    <SourceHealthCard />
-    <EnvironmentSummaryCard />
   </div>
 </WindowPanel>
 
