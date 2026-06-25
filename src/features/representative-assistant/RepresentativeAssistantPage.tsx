@@ -13,6 +13,7 @@ import { WindowPanel } from '../../components/common/WindowPanel';
 import { useMockResource } from '../../hooks/useMockResource';
 import { useI18n } from '../../i18n/I18nProvider';
 import { ConversationContext } from './components/ConversationContext';
+import { TranslationPanel } from './components/TranslationPanel';
 
 export function RepresentativeAssistantPage() {
   const { data, loading } = useMockResource(demoAdapter.getAssistantSnapshot);
@@ -99,8 +100,10 @@ const handleQuestionSubmit = async (
               <FeedbackControls />
             </div>
             <QueryComposer onSubmit={handleQuestionSubmit} />
-            
+
             <TranscriptionPanel />
+
+            <TranslationPanel />
 
             {assistantResponse && (
   <GroundedAnswerCard
