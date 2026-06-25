@@ -20,6 +20,7 @@ export function ResearchReviewPage() {
   const [query, setQuery] = useState('');
   const [selectedProposalId, setSelectedProposalId] = useState('PR-203');
   const [showAiReview, setShowAiReview] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [committeeDecision, setCommitteeDecision] = useState<
   'approved' | 'changes' | 'rejected' | null
 >(null);
@@ -237,6 +238,25 @@ useEffect(() => {
     gap: '0.75rem',
   }}
 >
+  <label
+  className="tag-chip"
+  style={{ cursor: 'pointer' }}
+>
+  Upload Document
+
+  <input
+    type="file"
+    accept=".pdf,.doc,.docx"
+    style={{ display: 'none' }}
+    onChange={(e) => {
+      const file = e.target.files?.[0];
+
+      if (file) {
+        setUploadedFile(file);
+      }
+    }}
+  />
+</label>
   <button
     type="button"
     className="tag-chip"
@@ -286,8 +306,26 @@ ${text(selectedProposal.recommendation ?? data.recommendation)}
 >
   Export Report
 </button>
-</div>
 
+</div>
+{uploadedFile && (
+  <div
+    className="callout-box"
+    style={{ marginTop: '1rem' }}
+  >
+    <span className="eyebrow">
+      Uploaded Document
+    </span>
+
+    <p>
+      {uploadedFile.name}
+    </p>
+
+    <p>
+      {(uploadedFile.size / 1024).toFixed(1)} KB
+    </p>
+  </div>
+)}
 {showAiReview && (
   <div className="callout-box" style={{ marginTop: '1rem' }}>
     <span className="eyebrow">
