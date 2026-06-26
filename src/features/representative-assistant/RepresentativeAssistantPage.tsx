@@ -14,6 +14,8 @@ import { useMockResource } from '../../hooks/useMockResource';
 import { useI18n } from '../../i18n/I18nProvider';
 import { ConversationContext } from './components/ConversationContext';
 import { TranslationPanel } from './components/TranslationPanel';
+import { AIReasoningPanel } from './components/AIReasoningPanel';
+import { IntentDetectionPanel } from './components/IntentDetectionPanel';
 
 export function RepresentativeAssistantPage() {
   const { data, loading } = useMockResource(demoAdapter.getAssistantSnapshot);
@@ -104,13 +106,41 @@ const handleQuestionSubmit = async (
             </div>
             <QueryComposer onSubmit={handleQuestionSubmit} />
 
-            <TranscriptionPanel
-  onTranscriptChange={setLiveTranscript}
-/>
-            <TranslationPanel
-  transcript={liveTranscript}
-/>
+           <div className="ai-workspace">
 
+  <div className="ai-row">
+
+    <div className="ai-column">
+      <TranscriptionPanel
+        onTranscriptChange={setLiveTranscript}
+      />
+    </div>
+
+    <div className="ai-column">
+      <TranslationPanel
+        transcript={liveTranscript}
+      />
+    </div>
+
+  </div>
+
+  <div className="ai-row">
+
+    <div className="ai-column">
+      <AIReasoningPanel
+        transcript={liveTranscript}
+      />
+    </div>
+
+    <div className="ai-column">
+      <IntentDetectionPanel
+        transcript={liveTranscript}
+      />
+    </div>
+
+  </div>
+
+</div>
             {assistantResponse && (
   <GroundedAnswerCard
     answer={assistantResponse.answer}
