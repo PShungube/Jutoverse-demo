@@ -1302,3 +1302,87 @@ input:focus-visible,
   border-radius: 999px;
   background: rgba(0,255,255,0.12);
 }
+.ai-workspace{
+  margin-top:1.5rem;
+}
+
+.ai-row{
+  display:flex;
+  gap:1.5rem;
+  margin-bottom:1.5rem;
+}
+
+.ai-column{
+  flex:1;
+  min-width:0;
+}
+
+.ai-column>*{
+  width:100%;
+}
+
+.capability-card {
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  max-height: 520px;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+}
+
+.transcription-output {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .ai-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.transcription-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.transcription-output {
+  flex: 1;
+}
+
+.transcription-footer {
+  margin-top: auto;
+}
+.transcription-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.transcription-controls {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.transcription-controls select {
+  border-radius: 10px;
+  padding: 0.45rem 0.75rem;
+}
+.transcription-controls {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.transcription-controls select,
+.transcription-controls button {
+  min-width: 110px;
+}

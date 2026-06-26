@@ -17,11 +17,11 @@ export function TranslationPanel({
   const [sourceText, setSourceText] =
     useState('');
 
-    useEffect(() => {
-  if (transcript) {
-    setSourceText(transcript);
-  }
-}, [transcript]);
+  useEffect(() => {
+    if (transcript) {
+      setSourceText(transcript);
+    }
+  }, [transcript]);
 
   const translateText = () => {
   if (!sourceText.trim()) {
