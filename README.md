@@ -13,3 +13,45 @@ Jutoverse is a proof-of-concept government platform designed to demonstrate how 
 ```bash
 git clone  https://github.com/PShungube/Jutoverse-demo.git
 ```
+### Navigate to the project
+```
+cd Jutoverse-demo
+```
+### Run development server 
+```
+npm install 
+npm run dev
+```
+## Core Modules 
+### 1. Overview Dashboard 
+Displays high-level government operational metrics including system health, AI activity, workflow statistics and operational signals. 
+####Features 
+- KPI Dashboard  
+- AI Reasoning Panel  
+- Live Alerts  
+- Responsive Panels  
+- Dashboard Metrics
+### 2. Research Review 
+Allows committee members to review research proposals using AI-generated recommendations and evaluation scores. 
+#### 2.1 Features 
+- Proposal Queue  
+- AI Recommendation  
+- Criteria Evaluation  
+- Strengths & Risks  
+- Audit Trail  
+- Analysis Pipeline  
+- Proposal Comparison  
+- Review Statistics  
+- Review History  
+- AI Research Assistant
+### 3. Representative Assistant 
+Designed to support government service representatives with AI-assisted communication. 
+#### Features include: 
+- Live Speech-to-Text  
+- Real-Time Translation  
+- AI Reasoning  
+- Intent Detection  
+- Evidence Tracking  
+- Conversation Workspace  
+- Sentiment Analysis
+These capabilities align with the proposed multilingual government assistance workspace described in the project specification.
