@@ -25,7 +25,7 @@ npm run dev
 ## Core Modules 
 ### 1. Overview Dashboard 
 Displays high-level government operational metrics including system health, AI activity, workflow statistics and operational signals. 
-####Features 
+#### 1.1 Features 
 - KPI Dashboard  
 - AI Reasoning Panel  
 - Live Alerts  
