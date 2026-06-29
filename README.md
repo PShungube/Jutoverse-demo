@@ -69,3 +69,19 @@ Provides operational visibility into public service requests.
 - Case Investigation Panels
   
 Operators can inspect requests while continuously viewing AI-generated recommendation.
+
+### 5. Citizen Services Tracking
+A secure citizen application management workspace for reviewing service requests and verifying supporting documentation.
+#### 5.1 Features
+- Case Queue Navigation
+- AI Document Verification
+- Human-in-the-Loop Approval
+- Identity Assistance
+- Activity Timeline
+#### 5.2 Functionality
+- Queue navigation
+- AI document extraction
+- Confidence scoring
+- Manual verification
+- Secure activity tracking
+- Timeline history
