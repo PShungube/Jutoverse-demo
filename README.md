@@ -1,70 +1,11 @@
 TABLE OF CONTENTS 
 
 ​​ 
-
-​ 
-
-​ 
-
-​ 
-
-​ 
-
-​ 
-
-​ 
-
-​ 
-
-​ 
-
-​ 
-
-​ 
-
-​​ 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
-AI Government Experience Mockup. 
+#AI Government Experience Mockup.
 
 An interactive AI-powered government workspace prototype built with React, TypeScript, and Vite that demonstrates how Artificial Intelligence can modernize public sector operations through intelligent automation, research proposal evaluation, multilingual communication, and explainable AI. 
 
-Overview 
+#Overview. 
 
 Jutoverse is a proof-of-concept government platform designed to demonstrate how Artificial Intelligence can improve public service delivery through automation, multilingual communication, explainable AI, intelligent document processing and committee decision support. 
 
@@ -74,7 +15,7 @@ The solution was developed using React, TypeScript and Vite while following mode
 
 The platform was designed around several government AI initiatives, including research proposal evaluation, citizen assistance, multilingual translation, explainable AI, automated document processing and operational dashboards.  
 
-Project Objectives 
+#Project Objectives 
 
 The primary objectives of this project are: 
 
@@ -92,29 +33,27 @@ Provide responsive dashboards for operational monitoring
 
 Showcase an intuitive modern government user experience 
 
-Installation  
+#Installation  
 
-Clone the repository 
+##Clone the repository 
 
 ```bash 
 
-git clone  
+git clone  https://github.com/PShungube/Jutoverse-demo.git  
 
-https://github.com/PShungube/Jutoverse-demo.git  
-
-Navigate into the project: 
+##Navigate into the project: 
 
 cd Jutoverse-demo 
 
-Run development server 
+##Run development server 
 
 npm install 
 
 npm run dev 
 
-Core Modules 
+#Core Modules 
 
-1. Overview Dashboard 
+##1. Overview Dashboard 
 
 Displays high-level government operational metrics including system health, AI activity, workflow statistics and operational signals. 
 
@@ -130,7 +69,7 @@ Responsive Panels
 
 Dashboard Metrics  
 
-2. Research Review 
+##2. Research Review 
 
 Allows committee members to review research proposals using AI-generated recommendations and evaluation scores. 
 
@@ -158,7 +97,7 @@ AI Research Assistant
 
  
 
-3. Representative Assistant 
+##3. Representative Assistant 
 
 Designed to support government service representatives with AI-assisted communication. 
 
@@ -180,9 +119,7 @@ Sentiment Analysis
 
 These capabilities align with the proposed multilingual government assistance workspace described in the project specification.  
 
-4. Administration 
-
-Administrative dashboard for monitoring operational activities, managing records and viewing analytics. 
+##4. Research review 
 
 4.1 Interactive Features 
 
