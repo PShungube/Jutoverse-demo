@@ -46,7 +46,7 @@ Allows committee members to review research proposals using AI-generated recomme
 - AI Research Assistant
 ### 3. Representative Assistant 
 Designed to support government service representatives with AI-assisted communication. 
-#### Features include: 
+#### 3.1 Features include: 
 - Live Speech-to-Text  
 - Real-Time Translation  
 - AI Reasoning  
@@ -57,7 +57,7 @@ Designed to support government service representatives with AI-assisted communic
 These capabilities align with the proposed multilingual government assistance workspace described in the project specification.
 ### 4. Service Operations Dashboard
 Provides operational visibility into public service requests.
-#### Features
+#### 4.1 Features
 - AI Inspector Panel
 - Interaction Feed
 - Operational Logs
