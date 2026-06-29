@@ -85,3 +85,19 @@ A secure citizen application management workspace for reviewing service requests
 - Manual verification
 - Secure activity tracking
 - Timeline history
+
+### 6. Future Improvements 
+Potential enhancements include: 
+- Real backend integration  
+- Authentication  
+- Role-based access control  
+- PDF report generation  
+- Database integration  
+- AI model integration  
+- Cloud deployment  
+- Live notifications  
+- Real-time collaboration  
+- Analytics dashboards  
+
+## License
+This project is intended as a proof-of-concept (POC) demonstrating AI-assisted digital government services and administrative workflows.
