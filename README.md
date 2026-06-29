@@ -55,3 +55,15 @@ Designed to support government service representatives with AI-assisted communic
 - Conversation Workspace  
 - Sentiment Analysis
 These capabilities align with the proposed multilingual government assistance workspace described in the project specification.
+### 4. Service Operations Dashboard
+Provides operational visibility into public service requests.
+#### Features
+- AI Inspector Panel
+- Interaction Feed
+- Operational Logs
+- Sticky Decision Viewer
+- Confidence Scores
+- AI Explainability
+- Drill-Down Analytics
+- Case Investigation Panels
+Operators can inspect requests while continuously viewing AI-generated recommendations.
