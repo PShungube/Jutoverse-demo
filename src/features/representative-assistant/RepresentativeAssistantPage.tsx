@@ -1,3 +1,4 @@
+import { TranscriptionPanel } from './components/TranscriptionPanel';
 import { useState } from 'react';
 import { getAssistantResponse } from '../../api/adapters/assistantAdapter';
 import { GroundedAnswerCard } from './components/GroundedAnswerCard';
@@ -12,6 +13,9 @@ import { WindowPanel } from '../../components/common/WindowPanel';
 import { useMockResource } from '../../hooks/useMockResource';
 import { useI18n } from '../../i18n/I18nProvider';
 import { ConversationContext } from './components/ConversationContext';
+import { TranslationPanel } from './components/TranslationPanel';
+import { AIReasoningPanel } from './components/AIReasoningPanel';
+import { IntentDetectionPanel } from './components/IntentDetectionPanel';
 
 export function RepresentativeAssistantPage() {
   const { data, loading } = useMockResource(demoAdapter.getAssistantSnapshot);
@@ -27,6 +31,9 @@ const [assistantResponse, setAssistantResponse] =
     confidence: number;
     citations: string[];
   } | null>(null);
+
+  const [liveTranscript, setLiveTranscript] =
+  useState('');
 
 const handleQuestionSubmit = async (
   question: string
@@ -99,6 +106,41 @@ const handleQuestionSubmit = async (
             </div>
             <QueryComposer onSubmit={handleQuestionSubmit} />
 
+           <div className="ai-workspace">
+
+  <div className="ai-row">
+
+    <div className="ai-column">
+      <TranscriptionPanel
+        onTranscriptChange={setLiveTranscript}
+      />
+    </div>
+
+    <div className="ai-column">
+      <TranslationPanel
+        transcript={liveTranscript}
+      />
+    </div>
+
+  </div>
+
+  <div className="ai-row">
+
+    <div className="ai-column">
+      <AIReasoningPanel
+        transcript={liveTranscript}
+      />
+    </div>
+
+    <div className="ai-column">
+      <IntentDetectionPanel
+        transcript={liveTranscript}
+      />
+    </div>
+
+  </div>
+
+</div>
             {assistantResponse && (
   <GroundedAnswerCard
     answer={assistantResponse.answer}
