@@ -68,4 +68,4 @@ Provides operational visibility into public service requests.
 - Drill-Down Analytics
 - Case Investigation Panels
   
-Operators can inspect requests while continuously viewing AI-generated recommendations.
+Operators can inspect requests while continuously viewing AI-generated recommendation.
