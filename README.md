@@ -67,4 +67,5 @@ Provides operational visibility into public service requests.
 - AI Explainability
 - Drill-Down Analytics
 - Case Investigation Panels
+  
 Operators can inspect requests while continuously viewing AI-generated recommendations.
